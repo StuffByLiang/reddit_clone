@@ -18,8 +18,26 @@ router.get('/', (req, res) => {
 
 router.get('/posts', (req, res) => {
 
+	const recentTopics = [
+		{
+			room: 'Sports',
+			topic: 'Soccer sucks',
+			user: 'LoreOfLies',
+			numReplies: 4,
+			date: 'March 20, 2018'
+		},
+		{
+			room: 'Sports',
+			topic: 'I\'m gay',
+			user: 'LoreOfLies',
+			numReplies: 4,
+			date: 'March 20, 2018'
+		}
+	]
+
 	res.render('posts', {
-		cdn: CDN
+		cdn: CDN,
+		topics: recentTopics
 	})
 
 })
