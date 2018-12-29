@@ -45,7 +45,15 @@
     "vary": "^1.1.2"
   },
   "devDependencies": {
-    "express": "latest"
+    "express": "latest",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.1",
+    "gulplog": "^1.0.0"
   },
   "deploy": [
     "."
