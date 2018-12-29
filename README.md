@@ -35,7 +35,7 @@ To build for production, run build:
 $ npm run build
 ```
 
-##If you are developing new features
+## If you are developing new features
 
 To update the dist file containing the css, fonts and js, install gulp CLI globally first
 
