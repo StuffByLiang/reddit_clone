@@ -7,9 +7,11 @@ var gp_rename = require('gulp-rename')
 var gp_uglify = require('gulp-uglify')
 var path = require('path')
 
-gulp.task('css-main', function(){
+// dashboard css
+gulp.task('css-vendor', function(){
     return gulp.src(
             [
+                // home page
                 './public/css/bootstrap.min.css',
                 './public/css/icons.css',
                 './public/css/metismenu.min.css',
@@ -18,8 +20,23 @@ gulp.task('css-main', function(){
         )
         .pipe(minifyCSS())
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
-        .pipe(gp_concat('style.min.css'))
+        .pipe(gp_concat('vendor.min.css'))
         .pipe(gulp.dest('./public/dist/css/'))
+})
+
+// home css
+gulp.task('css-pages-home', function(){
+    return gulp.src(
+            [
+                // posts page
+                './public/plugins/datatables/dataTables.bootstrap4.min.css',
+                './public/plugins/datatables/dataTables.bootstrap4.min.css',
+            ]
+        )
+        .pipe(minifyCSS())
+        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
+        .pipe(gp_concat('home.min.css'))
+        .pipe(gulp.dest('./public/dist/pages/home/css/'))
 })
 
 gulp.task('copy-fonts', function(){
@@ -29,7 +46,7 @@ gulp.task('copy-fonts', function(){
         .pipe(gulp.dest('./public/dist/fonts/'))
 })
 
-gulp.task('style', gulp.series(gulp.parallel('css-main', 'copy-fonts')) , function(){})
+gulp.task('style', gulp.series(gulp.parallel('css-vendor', 'css-pages-home', 'copy-fonts')) , function(){})
 
 //global vendor js scripts
 gulp.task('js-vendor', function(){
@@ -65,7 +82,7 @@ gulp.task('js-app', function(){
         .pipe(gulp.dest('./public/dist/js/'))
 });
 
-// dashboard/ome javascript
+// dashboard/home javascript
 gulp.task('js-dashboard', function(){
     return gulp.src(
             [
@@ -88,7 +105,23 @@ gulp.task('js-dashboard', function(){
         .pipe(gulp.dest('./public/dist/pages/dashboard/js/'))
 });
 
-gulp.task('js', gulp.series(gulp.parallel('js-vendor', 'js-app', 'js-dashboard')) , function(){})
+// home javascript
+gulp.task('js-pages-home', function(){
+    return gulp.src(
+            [
+                './public/plugins/datatables/jquery.dataTables.min.js',
+                './public/plugins/datatables/dataTables.bootstrap4.min.js',
+                './public/plugins/datatables/dataTables.responsive.min.js',
+            ]
+        )
+        .pipe(gp_concat('home.min.js'))
+        .pipe(gulp.dest('./public/dist/pages/home/js/'))
+        .pipe(gp_rename('home.min.js'))
+        .pipe(gp_uglify())
+        .pipe(gulp.dest('./public/dist/pages/home/js/'))
+});
+
+gulp.task('js', gulp.series(gulp.parallel('js-vendor', 'js-app', 'js-dashboard', 'js-pages-home')) , function(){})
 
 gulp.task('prod', gulp.series(gulp.parallel('style', 'js')) , function(){})
 gulp.task('default', gulp.series(gulp.parallel('style', 'js')) , function(){})

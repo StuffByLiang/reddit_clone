@@ -13,7 +13,15 @@ router.get('/', (req, res) => {
 	res.render('index', {
 		cdn: CDN
 	})
-	
+
+})
+
+router.get('/posts', (req, res) => {
+
+	res.render('posts', {
+		cdn: CDN
+	})
+
 })
 
 router.get('/rooms', (req, res) => {
