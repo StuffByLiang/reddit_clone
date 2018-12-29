@@ -7,16 +7,16 @@ router.post('/register', (req, res) => {
   turbo.createUser(req.body)
     .then(data => {
       req.vertexSession.user = {id: data.id}
-      
+
       res.json({
         confirmation: 'success',
-        data: data
+        message: data
       })
     })
     .catch(err => {
       res.json({
         confirmation: 'fail',
-        data: err.message
+        message: err.message
       })
     })
 })
@@ -30,13 +30,13 @@ router.post('/login', (req, res) => {
 
     res.json({
       confirmation: 'success',
-      data: data
+      message: data
     })
   })
   .catch(err => {
     res.json({
       confirmation: 'fail',
-      data: err.message
+      message: err.message
     })
   })
 })
@@ -55,14 +55,14 @@ router.get('/currentuser', (req, res) => {
     turbo.fetchOne('user', req.vertexSession.user.id)
       .then(data => {
         res.json({
-          confirmation: 'success',
-          user: data
-        })
+          confirmation: 'fail',
+          message: data
+        });
       })
       .catch(err => {
         res.json({
           confirmation: 'fail',
-          user: err/message
+          message: err.message
         })
       })
   }
@@ -70,12 +70,9 @@ router.get('/currentuser', (req, res) => {
 
 router.get('/logout', (req, res) => {
 
-  req.vertexSession.reset()
+  req.vertexSession.reset() //delete session variable
+  res.redirect('/'); //redirect to home
 
-  res.json({
-    confirmation: 'success',
-    user: null
-  })
 })
 
 module.exports = router

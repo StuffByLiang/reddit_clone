@@ -10,9 +10,24 @@ const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
 	information, view here: https://mustache.github.io/#demo */
 router.get('/', (req, res) => {
 
-	res.render('index', {
+	config = {
 		cdn: CDN
-	})
+	};
+
+	if(req.vertexSession == null || req.vertexSession.user == null) {
+		//render the regular page if no one is logged in
+		res.render('index', config);
+	} else {
+		//if someone is logged in, pass the username into the config variable
+		turbo.fetchOne('user', req.vertexSession.user.id)
+			.then(data => {
+				config['user'] = data;
+				res.render('index', config);
+			})
+			.catch(err => {
+				res.render('index', config);
+			})
+	}
 
 })
 
@@ -35,10 +50,25 @@ router.get('/posts', (req, res) => {
 		}
 	]
 
-	res.render('posts', {
+	config = {
 		cdn: CDN,
 		topics: recentTopics
-	})
+	}
+
+	if(req.vertexSession == null || req.vertexSession.user == null) {
+		//render the regular page if no one is logged in
+		res.render('posts', config);
+	} else {
+		//if someone is logged in, pass the username into the config variable
+		turbo.fetchOne('user', req.vertexSession.user.id)
+			.then(data => {
+				config['user'] = data;
+				res.render('posts', config);
+			})
+			.catch(err => {
+				res.render('posts', config);
+			})
+	}
 
 })
 

@@ -72,12 +72,26 @@ gulp.task('js-app', function(){
     return gulp.src(
             [
                 './public/js/jquery.core.js',
-                './public/js/jquery.app.js'
+                './public/js/jquery.app.js',
             ]
         )
         .pipe(gp_concat('app.min.js'))
         .pipe(gulp.dest('./public/dist/js/'))
         .pipe(gp_rename('app.min.js'))
+        .pipe(gp_uglify())
+        .pipe(gulp.dest('./public/dist/js/'))
+});
+
+// global custom javascript
+gulp.task('js-global-custom', function(){
+    return gulp.src(
+            [
+                './public/js/login.js'
+            ]
+        )
+        .pipe(gp_concat('global-custom.min.js'))
+        .pipe(gulp.dest('./public/dist/js/'))
+        .pipe(gp_rename('global-custom.min.js'))
         .pipe(gp_uglify())
         .pipe(gulp.dest('./public/dist/js/'))
 });
@@ -121,7 +135,7 @@ gulp.task('js-pages-home', function(){
         .pipe(gulp.dest('./public/dist/pages/home/js/'))
 });
 
-gulp.task('js', gulp.series(gulp.parallel('js-vendor', 'js-app', 'js-dashboard', 'js-pages-home')) , function(){})
+gulp.task('js', gulp.series(gulp.parallel('js-vendor', 'js-app', 'js-dashboard', 'js-pages-home', 'js-global-custom')) , function(){})
 
 gulp.task('prod', gulp.series(gulp.parallel('style', 'js')) , function(){})
 gulp.task('default', gulp.series(gulp.parallel('style', 'js')) , function(){})
