@@ -3,6 +3,8 @@ const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
 const router = vertex.router()
 
+const helpers = require('./helpers');
+
 const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
 
 /*  This is the home route. It renders the index.mustache page from the views directory.
@@ -14,20 +16,7 @@ router.get('/', (req, res) => {
 		cdn: CDN
 	};
 
-	if(req.vertexSession == null || req.vertexSession.user == null) {
-		//render the regular page if no one is logged in
-		res.render('index', config);
-	} else {
-		//if someone is logged in, pass the username into the config variable
-		turbo.fetchOne('user', req.vertexSession.user.id)
-			.then(data => {
-				config['user'] = data;
-				res.render('index', config);
-			})
-			.catch(err => {
-				res.render('index', config);
-			})
-	}
+	helpers.displayPage(req, res, 'index', config);
 
 })
 
@@ -55,20 +44,7 @@ router.get('/posts', (req, res) => {
 		topics: recentTopics
 	}
 
-	if(req.vertexSession == null || req.vertexSession.user == null) {
-		//render the regular page if no one is logged in
-		res.render('posts', config);
-	} else {
-		//if someone is logged in, pass the username into the config variable
-		turbo.fetchOne('user', req.vertexSession.user.id)
-			.then(data => {
-				config['user'] = data;
-				res.render('posts', config);
-			})
-			.catch(err => {
-				res.render('posts', config);
-			})
-	}
+	helpers.displayPage(req, res, 'posts', config);
 
 })
 
@@ -103,6 +79,22 @@ router.get('/room/:category', (req, res) => {
 				data: err.message
 			})
 		})
+})
+
+router.get('/addroom', (req, res) => {
+
+	if(req.vertexSession == null || req.vertexSession.user == null) {
+		//redirect to home if not logged in
+		res.redirect('/');
+		return;
+	}
+
+	config = {
+		cdn: CDN
+	};
+
+	helpers.displayPage(req, res, 'addroom', config);
+
 })
 
 module.exports = router

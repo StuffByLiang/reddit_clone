@@ -43,9 +43,17 @@
                 </li>
 
                 <li>
-                    <a href="javascript: void(0);"><i class="fi-layers"></i> <span> Apps </span> <span class="menu-arrow"></span></a>
+                    <a href="/addroom">
+                        <i class="fi-air-play"></i><span> Add Room </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);"><i class="fi-layers"></i> <span> Rooms </span> <span class="menu-arrow"></span></a>
                     <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="apps-calendar.html">Calendar</a></li>
+                        {{#rooms}}
+                        <li><a href="/room/{{category}}">{{category}}</a></li>
+                        {{/rooms}}
                     </ul>
                 </li>
 

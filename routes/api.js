@@ -2,22 +2,14 @@
 const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
 const router = vertex.router()
-
-/*  This is a sample API route. */
-
-//valid resources
-const validResources = [
-	'room',
-	'topic',
-	'reply',
-	'user'
-]
+const controllers = require('../controllers') //i dont understand the point of controllers
 
 router.post('/:resource', (req, res) => {
 
 	const resource = req.params.resource;
-	if(validResources.indexOf(resource) == -1) {
-		//invalid resource!
+
+	const controller = controllers[resource];
+	if(controller == null){
 		res.json({
 			confirmation: 'fail',
 			data: 'Invalid resource: ' + resource
@@ -25,7 +17,8 @@ router.post('/:resource', (req, res) => {
 		return;
 	}
 
-	turbo.create(resource, req.body)
+
+	controller.post(req.body)
 		.then(data => {
 			res.json({
 				confirmation: 'success',
@@ -42,8 +35,9 @@ router.post('/:resource', (req, res) => {
 
 router.get('/:resource', (req, res) => {
 	const resource = req.params.resource;
-	if(validResources.indexOf(resource) == -1) {
-		//invalid resource!
+
+	const controller = controllers[resource];
+	if(controller == null){
 		res.json({
 			confirmation: 'fail',
 			data: 'Invalid resource: ' + resource
@@ -51,7 +45,7 @@ router.get('/:resource', (req, res) => {
 		return;
 	}
 
-	turbo.fetch(resource, req.query)
+	controller.get(req.body)
 		.then(data => {
 			res.json({
 				confirmation: 'success',
@@ -68,8 +62,9 @@ router.get('/:resource', (req, res) => {
 
 router.get('/:resource/:id', (req, res) => {
 	const resource = req.params.resource;
-	if(validResources.indexOf(resource) == -1) {
-		//invalid resource!
+
+	const controller = controllers[resource];
+	if(controller == null){
 		res.json({
 			confirmation: 'fail',
 			data: 'Invalid resource: ' + resource
@@ -77,7 +72,7 @@ router.get('/:resource/:id', (req, res) => {
 		return;
 	}
 
-	turbo.fetchOne(resource, req.params.id)
+	controller.getById(req.body)
 		.then(data => {
 			res.json({
 				confirmation: 'success',
