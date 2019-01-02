@@ -55,7 +55,7 @@ router.get('/currentuser', (req, res) => {
     turbo.fetchOne('user', req.vertexSession.user.id)
       .then(data => {
         res.json({
-          confirmation: 'fail',
+          confirmation: 'success',
           message: data
         });
       })

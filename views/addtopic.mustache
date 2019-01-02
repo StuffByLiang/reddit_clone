@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Highdmin - Responsive Bootstrap 4 Admin Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{{cdn}}}/images/favicon.ico">
+
+        <!-- App css -->
+        <link href="{{{cdn}}}/dist/css/vendor.min.css" rel="stylesheet" type="text/css" />
+        <script src="{{{cdn}}}/js/modernizr.min.js"></script>
+
+    </head>
+
+
+    <body>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- ========== Left Sidebar Start ========== -->
+            {{>left_navbar}}
+            <!-- Left Sidebar End -->
+
+
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+
+                <!-- Top Bar Start -->
+                {{>topbar}}
+                <!-- Top Bar End -->
+
+
+
+                <!-- Start Page content -->
+                <div class="content">
+                    <div class="container-fluid">
+
+                      <div class="row">
+                          <div class="col-12">
+                              <div class="card-box">
+                                <h4 class="m-t-0 header-title">Create a topic</h4>
+                                  <p class="text-muted m-b-30 font-14">
+                                      What would you like to talk about?
+                                  </p>
+
+                                  <div class="row">
+                                      <div class="col-12">
+                                          <div class="p-20">
+                                              <form id="addtopic-form" class="form-horizontal" role="form">
+                                                  <div class="form-group row">
+                                                      <label class="col-2 col-form-label">Topic Title</label>
+                                                      <div class="col-10">
+                                                          <input id="topic-title" type="text" class="form-control" placeholder="Room Name">
+                                                      </div>
+                                                  </div>
+                                                  <div class="form-group row">
+                                                      <label class="col-2 col-form-label" for="example-email">Topic Description</label>
+                                                      <div class="col-10">
+                                                          <textarea type="text" id="topic-description" class="form-control" placeholder="Enter the Room Description" rows=5></textarea>
+                                                      </div>
+                                                  </div>
+                                                  <!-- <div class="form-group row">
+                                                      <label class="col-2 col-form-label">Password</label>
+                                                      <div class="col-10">
+                                                          <input type="password" class="form-control" value="password">
+                                                      </div>
+                                                  </div> -->
+                                                  <div class="form-group row">
+                                                      <div class="col-10 offset-2">
+                                                          <button type="submit" class="btn btn-info waves-effect waves-light">Create</button>
+                                                      </div>
+                                                  </div>
+
+                                                  <input type="hidden" id="user-id" value="{{user.id}}" />
+                                                  <input type="hidden" id="topic-room" value="{{room}}" />
+                                              </form>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer text-right">
+                    2018 © Highdmin. - Coderthemes.com
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <!-- modals -->
+        {{>modal_login}}
+
+        <!-- jQuery (global vendor js scripts all pages)  -->
+        <script src="{{{cdn}}}/dist/js/vendor.min.js"></script>
+
+        <!-- App js (Idk what this is for lol) -->
+        <script src="{{{cdn}}}/dist/js/app.min.js"></script>
+
+        <!-- global customs -->
+        <script src="{{{cdn}}}/dist/js/global-custom.min.js"></script>
+
+        <script type="text/javascript">
+        (function(){
+          $( "#addtopic-form" ).submit(function( event ) {
+            event.preventDefault();
+
+            // grab form values
+            var roomData = {
+              title: $( "#topic-name" ).val(),
+              description: $( "#topic-description" ).val(),
+              room: $( "topic-room" ).val,
+              user: $( "#user-id" ).val()
+            }
+
+            if (roomData.category.length == 0) {
+              alert('error', "Please enter the topic name");
+              return;
+            }
+
+            if (roomData.description.length == 0) {
+              alert('error', "Please enter the topic description");
+              return;
+            }
+
+            //now send ajax request
+            $.ajax({
+              url: '/api/topic',
+              type: 'POST',
+              data: roomData,
+              success: function(data, textStatus, jqXHR) {
+                if(data.confirmation != 'success') {
+                  alert('error', data.message);
+                } else {
+                  alert('success', `Topic: ${roomData.category} created.`);
+                }
+
+              },
+              error: function(jqHXR, textStatus, err) {
+                alert('error', err);
+              }
+            })
+
+          });
+        })()
+        </script>
+
+    </body>
+</html>

@@ -4,6 +4,7 @@ const resource = 'user';
 
 module.exports = {
   get: (params) => {
+    console.log(params)
     return new Promise((resolve, reject) => {
       turbo.fetch(resource, params)
         .then(data => {

@@ -52,49 +52,8 @@ router.get('/rooms', (req, res) => {
 	res.render('rooms', null)
 })
 
-router.get('/room/:category', (req, res) => {
-	const category = req.params.category;
+router.get('/room/:category', require('./pages/room/category.js'))
 
-	//fetch from database room with category that matches the paramater 'category'
-	turbo.fetch('room', {
-		category: category
-	})
-		.then(data => {
-			if(data.length > 0) {
-				//if found within the database, render the room
-				res.render('room', {
-					room: category
-				})
-			} else if(data.length === 0) {
-				//if there are no results, tell client the room was not found
-				res.json({
-					confirmation: 'fail',
-					data: 'Room not found: ' + category
-				})
-			}
-		})
-		.catch(err => {
-			res.json({
-				confirmation: 'fail',
-				data: err.message
-			})
-		})
-})
-
-router.get('/addroom', (req, res) => {
-
-	if(req.vertexSession == null || req.vertexSession.user == null) {
-		//redirect to home if not logged in
-		res.redirect('/');
-		return;
-	}
-
-	config = {
-		cdn: CDN
-	};
-
-	helpers.displayPage(req, res, 'addroom', config);
-
-})
+router.get('/addroom', require('./pages/addroom'))
 
 module.exports = router
