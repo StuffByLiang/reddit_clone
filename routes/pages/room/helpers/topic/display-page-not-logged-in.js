@@ -39,7 +39,7 @@ module.exports = function(req, res, config, slug, topicSlug) {
         //if there are no results, tell client the room was not found
         res.json({
           confirmation: 'fail',
-          data: 'Topic not found: ' + slug
+          data: 'Topic not found: ' + topicSlug
         })
       }
     })
