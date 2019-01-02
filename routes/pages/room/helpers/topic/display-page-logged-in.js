@@ -1,5 +1,7 @@
 const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 
+const ta = require('time-ago')
+
 //fetch from database room with slug that matches the paramater 'slug'
 module.exports = function(req, res, config, slug, topicSlug) {
   turbo.fetchOne('user', req.vertexSession.user.id)
@@ -40,6 +42,10 @@ module.exports = function(req, res, config, slug, topicSlug) {
         //if found within the database, render the room
         config['topic'] = topics[0];
         config['pageTitle'] = topics[0].room.name + " > " + topics[0].title;
+
+        // convert date time into FORMAT ___ units ago
+        config.topic.timestamp = ta.ago(config.topic.timestamp);
+
 
         res.render('topic', config)
       } else if(topics.length === 0) {
