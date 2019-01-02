@@ -19,6 +19,24 @@
 
         <script src="/js/modernizr.min.js"></script>
 
+        <style>
+
+        .card-box.clickable {
+          display: block;
+          border: 1px solid #fff;
+        }
+
+        .card-box.clickable:hover {
+          cursor: pointer;
+          border: 1px solid #000;
+        }
+
+        a:hover {
+          text-decoration: underline!important;
+        }
+
+        </style>
+
     </head>
 
 
@@ -47,7 +65,7 @@
                 <div class="content">
                     <div class="container-fluid">
 
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12">
                                 <div class="card-box">
                                     <h4 class="header-title">Latest Posts</h4>
@@ -69,7 +87,7 @@
                                         </thead>
 
                                         <tbody>
-                                            {{#topics}}
+
                                             <tr>
                                                 <td><a href="/room/{{room.slug}}"><b>{{room.name}}</b></a></td>
                                                 <td>
@@ -101,21 +119,35 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            {{/topics}}
+
 
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </div> -->
+                        <!-- end row -->
+
+                        {{#topics}}
+                        <div class="row">
+                            <div class="col-12">
+                                <div href="/room/{{room.slug}}/topic/{{slug}}" class="card-box clickable">
+                                    <p class="text-muted tickets-list"><a href="/room/{{room.slug}}">{{room.name}}</a> | Posted by <a href="/user/{{user.username}}">{{user.username}}</a> | {{timestamp}}</p>
+                                    <h4 class="">{{title}}</h4>
+                                    <p class="text-muted">{{description}}</p>
+                                    <p class="text-muted tickets-list mb-0"><i class="mdi mdi-comment"></i> {{numReplies}}</p>
+                                </div>
                             </div><!-- end col -->
                         </div>
                         <!-- end row -->
+                        {{/topics}}
 
                     </div> <!-- container -->
 
                 </div> <!-- content -->
 
                 <footer class="footer text-right">
-                    2018 © Highdmin. - Coderthemes.com
+                    {{>footer}}
                 </footer>
 
             </div>
@@ -145,7 +177,11 @@
 
         <script type="text/javascript">
             $(document).ready(function () {
-                $('#datatable').dataTable();
+                // $('#datatable').dataTable();
+
+                $('.clickable').on('click', function(event){
+                    window.location.href = $(this).attr('href');;
+                });
             });
         </script>
 
