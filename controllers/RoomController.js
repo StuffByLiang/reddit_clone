@@ -46,27 +46,45 @@ module.exports = {
     })
   },
 
-  post: (body) => {
+  post: (req, body) => {
+
     return new Promise((resolve, reject) => {
-      body['subscribers'] = [body.user]; //add the user id to room subscribers
-      body['slug'] = slugify(body.category.toLowerCase())+'-'+randomString(6);
 
-      //then fetch current user
-      turbo.fetchOne('user', body.user)
-        .then(user => {
-          body['user'] = {
-            id: user.id,
-            username: user.username
-          }
+      // if logged in, do this stuff, otherwise reject.
+      if(req.vertexSession == null || req.vertexSession.user == null) {
+          reject({message: "Not logged in. Cannot create a room"})
+        } else {
+          // logged in!
+          body['subscribers'] = [req.vertexSession.user.id]; //add the user id to room subscribers
+          body['slug'] = slugify(body.category.toLowerCase().substr(0,40));
 
-          return turbo.create(resource, body)
-        })
-        .then(data => {
-          resolve(data)
-        })
-        .catch(err => {
-          reject(err)
-        })
+          // check if the room as been created before
+          turbo.fetch('room', { slug: body.slug })
+            .then(rooms => {
+              if(rooms.length > 0) {
+      	        //if found within the database, do not create the room!
+      	        reject({message: "There is already a room with the same name!"});
+
+      	      } else if(rooms.length === 0) {
+      	        //if there are no results, continue on with fetching the user
+      	        return turbo.fetchOne('user', req.vertexSession.user.id);
+      	      }
+            })
+            .then(user => {
+              body['user'] = {
+                id: user.id,
+                username: user.username
+              }
+
+              return turbo.create(resource, body)
+            })
+            .then(data => {
+              resolve(data)
+            })
+            .catch(err => {
+              reject(err)
+            })
+        }
     })
   }
 }

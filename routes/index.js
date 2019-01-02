@@ -13,7 +13,8 @@ const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
 router.get('/', (req, res) => {
 
 	config = {
-		cdn: CDN
+		cdn: CDN,
+		pageTitle: 'Home'
 	};
 
 	helpers.displayPage(req, res, 'index', config);
@@ -22,29 +23,22 @@ router.get('/', (req, res) => {
 
 router.get('/posts', (req, res) => {
 
-	const recentTopics = [
-		{
-			room: 'Sports',
-			topic: 'Soccer sucks',
-			user: 'LoreOfLies',
-			numReplies: 4,
-			date: 'March 20, 2018'
-		},
-		{
-			room: 'Sports',
-			topic: 'I\'m gay',
-			user: 'LoreOfLies',
-			numReplies: 4,
-			date: 'March 20, 2018'
-		}
-	]
-
 	config = {
 		cdn: CDN,
-		topics: recentTopics
+		pageTitle: 'Latest Posts'
 	}
 
-	helpers.displayPage(req, res, 'posts', config);
+	//get all recent topics
+	turbo.fetch('topic', null)
+    .then(topics => {
+      config['topics'] = topics;
+
+      // get the room that is being fetched on the page params
+      helpers.displayPage(req, res, 'posts', config);
+    })
+		.catch(err => {
+			res.render('posts', config);
+		})
 
 })
 
@@ -52,7 +46,8 @@ router.get('/rooms', (req, res) => {
 	res.render('rooms', null)
 })
 
-router.get('/room/:category', require('./pages/room/category.js'))
+router.get('/room/:slug', require('./pages/room/slug.js'))
+router.get('/room/:slug/addtopic', require('./pages/room/addtopic.js'))
 
 router.get('/addroom', require('./pages/addroom'))
 

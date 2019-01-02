@@ -50,7 +50,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="card-box">
-                                    <h4 class="header-title">Manage Tickets</h4>
+                                    <h4 class="header-title">Latest Posts</h4>
 
 
 
@@ -61,6 +61,7 @@
                                             <th>Room</th>
                                             <th>Posted by</th>
                                             <th>Topic</th>
+                                            <th>Description</th>
                                             <th>Replies</th>
                                             <th>Date</th>
                                             <th class="hidden-sm">Action</th>
@@ -70,21 +71,23 @@
                                         <tbody>
                                             {{#topics}}
                                             <tr>
-                                                <td><b>{{room}}</b></td>
+                                                <td><a href="/room/{{room.slug}}"><b>{{room.name}}</b></a></td>
                                                 <td>
                                                     <a href="javascript: void(0);">
                                                         <img src="{{{cdn}}}/images/users/avatar-2.jpg" alt="contact-img" title="contact-img" class="rounded-circle" />
-                                                        <span class="ml-2">{{user}}</span>
+                                                        <span class="ml-2">{{user.username}}</span>
                                                     </a>
                                                 </td>
 
-                                                <td>{{topic}}</td>
+                                                <td><a href="/room/{{room.slug}}/topic/{{slug}}">{{title}}</a></td>
+
+                                                <td>{{description}}</td>
 
                                                 <td>
                                                     <span class="badge badge-info">{{numReplies}}</span>
                                                 </td>
 
-                                                <td>{{date}}</td>
+                                                <td>{{timestamp}}</td>
 
                                                 <td>
                                                     <div class="btn-group dropdown">

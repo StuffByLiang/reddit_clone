@@ -60,13 +60,13 @@
                                                   <div class="form-group row">
                                                       <label class="col-2 col-form-label">Topic Title</label>
                                                       <div class="col-10">
-                                                          <input id="topic-title" type="text" class="form-control" placeholder="Room Name">
+                                                          <input id="topic-title" type="text" class="form-control" placeholder="Topic Title">
                                                       </div>
                                                   </div>
                                                   <div class="form-group row">
                                                       <label class="col-2 col-form-label" for="example-email">Topic Description</label>
                                                       <div class="col-10">
-                                                          <textarea type="text" id="topic-description" class="form-control" placeholder="Enter the Room Description" rows=5></textarea>
+                                                          <textarea type="text" id="topic-description" class="form-control" placeholder="Enter the Topic Description" rows=5></textarea>
                                                       </div>
                                                   </div>
                                                   <!-- <div class="form-group row">
@@ -81,7 +81,6 @@
                                                       </div>
                                                   </div>
 
-                                                  <input type="hidden" id="user-id" value="{{user.id}}" />
                                                   <input type="hidden" id="topic-room" value="{{room}}" />
                                               </form>
                                           </div>
@@ -128,19 +127,18 @@
             event.preventDefault();
 
             // grab form values
-            var roomData = {
-              title: $( "#topic-name" ).val(),
+            var topicData = {
+              title: $( "#topic-title" ).val(),
               description: $( "#topic-description" ).val(),
-              room: $( "topic-room" ).val,
-              user: $( "#user-id" ).val()
+              room: $( "#topic-room" ).val()
             }
 
-            if (roomData.category.length == 0) {
+            if (topicData.title.length == 0) {
               alert('error', "Please enter the topic name");
               return;
             }
 
-            if (roomData.description.length == 0) {
+            if (topicData.description.length == 0) {
               alert('error', "Please enter the topic description");
               return;
             }
@@ -149,12 +147,12 @@
             $.ajax({
               url: '/api/topic',
               type: 'POST',
-              data: roomData,
+              data: topicData,
               success: function(data, textStatus, jqXHR) {
                 if(data.confirmation != 'success') {
-                  alert('error', data.message);
+                  alert('error', data.data);
                 } else {
-                  alert('success', `Topic: ${roomData.category} created.`);
+                  alert('success', `Topic: '${topicData.title}' was succesfully created.`);
                 }
 
               },

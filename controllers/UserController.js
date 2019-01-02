@@ -28,7 +28,7 @@ module.exports = {
     })
   },
 
-  post: (body) => {
+  post: (req, body) => {
     return new Promise((resolve, reject) => {
       turbo.create(resource, body)
       .then(data => {

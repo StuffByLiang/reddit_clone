@@ -81,7 +81,6 @@
                                                       </div>
                                                   </div>
 
-                                                  <input type="hidden" id="user-id" value="{{user.id}}" />
                                               </form>
                                           </div>
                                       </div>
@@ -129,8 +128,7 @@
             // grab form values
             var roomData = {
               category: $( "#room-name" ).val(),
-              description: $( "#room-description" ).val(),
-              user: $( "#user-id" ).val()
+              description: $( "#room-description" ).val()
             }
 
             if (roomData.category.length == 0) {
@@ -150,9 +148,9 @@
               data: roomData,
               success: function(data, textStatus, jqXHR) {
                 if(data.confirmation != 'success') {
-                  alert('error', data.message);
+                  alert('error', data.data);
                 } else {
-                  alert('success', `Room: ${roomData.category} created.`);
+                  alert('success', `Room: '${roomData.category}' was succesfully created.`);
                 }
 
               },

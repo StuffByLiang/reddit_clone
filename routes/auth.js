@@ -4,7 +4,21 @@ const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
 const router = vertex.router()
 
 router.post('/register', (req, res) => {
-  turbo.createUser(req.body)
+  turbo.fetch('user', { username: req.body.username })
+    .then(user => {
+      if(user.length > 0) {
+        //if username is found within database, throw an error
+        res.json({
+          confirmation: 'fail',
+          message: "Username already exists"
+        })
+        return;
+
+      } else if(user.length === 0) {
+        //if there are no results, continue on!
+        return turbo.createUser(req.body)
+      }
+    })
     .then(data => {
       req.vertexSession.user = {id: data.id}
 

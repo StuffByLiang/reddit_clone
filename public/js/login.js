@@ -45,4 +45,44 @@ window.alert = function (title, message) {
     })
 
   });
+
+  $( "#signup-form" ).submit(function( event ) {
+    event.preventDefault();
+
+    // grab form values
+    var credentials = {
+      username: $( "#username2" ).val(),
+      password: $( "#password2" ).val(),
+    }
+
+    if (credentials.username.length == 0) {
+      alert('error', "Please enter your username");
+      return;
+    }
+
+    if (credentials.password.length == 0) {
+      alert('error', "Please enter your password");
+      return;
+    }
+
+    //now send ajax request
+    $.ajax({
+      url: '/auth/register',
+      type: 'POST',
+      data: credentials,
+      success: function(data, textStatus, jqXHR) {
+        if(data.confirmation != 'success') {
+          alert('error', data.message);
+        } else {
+          //alert('success', data.message);
+          window.location.href = '/';
+        }
+
+      },
+      error: function(jqHXR, textStatus, err) {
+        alert('error', err);
+      }
+    })
+
+  });
 })()

@@ -11,7 +11,8 @@ module.exports = (req, res) => {
 	}
 
 	config = {
-		cdn: CDN
+		cdn: CDN,
+		pageTitle: 'Add A Room'
 	};
 
 	helpers.displayPage(req, res, 'addroom', config);
