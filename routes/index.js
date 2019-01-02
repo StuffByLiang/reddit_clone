@@ -3,6 +3,8 @@ const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
 const router = vertex.router()
 
+const ta = require('time-ago')
+
 const helpers = require('./helpers');
 
 const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
@@ -32,6 +34,11 @@ router.get('/posts', (req, res) => {
 	turbo.fetch('topic', null)
     .then(topics => {
       config['topics'] = topics;
+
+			// convert date time into FORMAT ___ units ago
+			for(topic of config.topics) {
+				topic.timestamp = ta.ago(topic.timestamp);
+			}
 
       // get the room that is being fetched on the page params
       helpers.displayPage(req, res, 'posts', config);

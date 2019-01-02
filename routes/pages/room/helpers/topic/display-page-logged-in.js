@@ -41,8 +41,6 @@ module.exports = function(req, res, config, slug, topicSlug) {
         config['topic'] = topics[0];
         config['pageTitle'] = topics[0].room.name + " > " + topics[0].title;
 
-        console.log(config)
-
         res.render('topic', config)
       } else if(topics.length === 0) {
         //if there are no results, tell client the room was not found
