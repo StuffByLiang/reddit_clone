@@ -32,9 +32,9 @@ module.exports = (req, res) => {
 
   if(req.vertexSession == null || req.vertexSession.user == null) {
     // if no one is logged in, display page with no user data
-    require('./helpers/display-page-not-logged-in')(req, res, config, slug);
+    require('./helpers/slug/display-page-not-logged-in')(req, res, config, slug);
   } else {
     // someone is logged in!
-    require('./helpers/display-page-logged-in')(req, res, config, slug);
+    require('./helpers/slug/display-page-logged-in')(req, res, config, slug);
   }
 }

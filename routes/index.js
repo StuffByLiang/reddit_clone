@@ -51,4 +51,6 @@ router.get('/room/:slug/addtopic', require('./pages/room/addtopic.js'))
 
 router.get('/addroom', require('./pages/addroom'))
 
+router.get('/room/:slug/topic/:topicSlug', require('./pages/room/topic.js'))
+
 module.exports = router
