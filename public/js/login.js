@@ -35,7 +35,7 @@ window.alert = function (title, message) {
           alert('error', data.message);
         } else {
           //alert('success', data.message);
-          window.location.href = '/';
+          window.location.href = window.location.pathname;
         }
 
       },
@@ -75,7 +75,7 @@ window.alert = function (title, message) {
           alert('error', data.message);
         } else {
           //alert('success', data.message);
-          window.location.href = '/';
+          window.location.href = window.location.pathname;
         }
 
       },
