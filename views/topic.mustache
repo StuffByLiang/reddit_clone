@@ -47,10 +47,40 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="card-box">
-                                    <h2 class="header-title mb-0">{{topic.room.name}}</h2>
+                                    <h2 class="header-title mb-0"><a class="underline no-color-change" href="/room/{{topic.room.slug}}">{{topic.room.name}}</a></h2>
+                                    <p class="text-muted mb-0">Posted by <a class="underline no-color-change" href="/user/{{topic.user.username}}">{{topic.user.username}}</a> | {{topic.timestamp}}</p>
                                     <h4 class="">{{topic.title}}</h4>
-                                    <p class="text-muted">Posted by <a href="/user/{{topic.user.username}}">{{topic.user.username}}</a> | {{topic.timestamp}}</p>
-                                    <p>{{topic.description}}</p>
+                                    <p class="pre">{{topic.description}}</p>
+
+                                    <div class="p-20">
+                                        <form id="addtopic-form" class="form-horizontal" role="form">
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Topic Title</label>
+                                                <div class="col-10">
+                                                    <input id="topic-title" type="text" class="form-control" placeholder="Topic Title">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label" for="example-email">Topic Description</label>
+                                                <div class="col-10">
+                                                    <textarea type="text" id="topic-description" class="form-control" placeholder="Enter the Topic Description" rows=5></textarea>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="form-group row">
+                                                <label class="col-2 col-form-label">Password</label>
+                                                <div class="col-10">
+                                                    <input type="password" class="form-control" value="password">
+                                                </div>
+                                            </div> -->
+                                            <div class="form-group row">
+                                                <div class="col-10 offset-2">
+                                                    <button type="submit" class="btn btn-info waves-effect waves-light">Create</button>
+                                                </div>
+                                            </div>
+
+                                            <input type="hidden" id="topic-room" value="{{room}}" />
+                                        </form>
+                                    </div>
                                 </div>
                             </div><!-- end col -->
                         </div>

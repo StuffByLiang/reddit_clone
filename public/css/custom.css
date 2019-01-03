@@ -1,0 +1,11 @@
+a.underline:hover {
+  text-decoration: underline!important;
+}
+
+a.no-color-change {
+  color: inherit;
+}
+
+.pre {
+  white-space: pre;
+}

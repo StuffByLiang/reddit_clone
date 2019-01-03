@@ -15,7 +15,8 @@ gulp.task('css-vendor', function(){
                 './public/css/bootstrap.min.css',
                 './public/css/icons.css',
                 './public/css/metismenu.min.css',
-                './public/css/style.css'
+                './public/css/style.css',
+                './public/css/custom.css'
             ]
         )
         .pipe(minifyCSS())
