@@ -52,22 +52,24 @@
                                     <h4 class="">{{topic.title}}</h4>
                                     <p class="pre">{{topic.description}}</p>
 
-                                    <div class="mt-5">
+                                    <p class="text-muted tickets-list"><i class="mdi mdi-comment"></i> {{topic.numReplies}}</p>
+
+                                    <div class="mt-3">
                                         <!-- If logged in -->
                                         {{#user}}
                                         <form id="comment-form" class="form-horizontal" role="form">
                                           <div class="form-group">
                                               <label for="comment">Posting a comment as {{user.username}}</label>
-                                              <textarea class="form-control" id="comment" aria-describedby="comment" placeholder="Enter a Comment" rows="6"></textarea>
+                                              <textarea class="form-control" id="comment" aria-describedby="comment" placeholder="What are your thoughts?" rows="6"></textarea>
                                           </div>
 
-                                          <div class="form-group row">
+                                          <div class="form-group row mb-0">
                                               <div class="col-12">
-                                                  <button type="submit" class="btn btn-info waves-effect waves-light">Create</button>
+                                                  <button type="submit" class="btn btn-info waves-effect waves-light">Comment</button>
                                               </div>
                                           </div>
 
-                                          <input type="hidden" id="topic-room" value="{{room}}" />
+                                          <input type="hidden" id="topic-slug" value="{{topic.slug}}" />
                                         </form>
                                         {{/user}}
 
@@ -85,6 +87,42 @@
                             <div class="col-12">
                                 <div class="card-box">
                                     <h4 class="header-title">Comments</h4>
+                                    <hr class="m-0" />
+
+                                    <div>
+
+                                        {{#replys}}
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <p class="text-muted mb-0">
+                                                  <a class="underline no-color-change" href="/user/{{user.username}}">{{user.username}}</a>
+                                                  | {{timestamp}}
+                                                </p>
+                                                <!-- <a href="" class="text-dark">@Michael</a> -->
+                                                <p class="pre text-dark mb-0">{{comment}}</p>
+                                                <a href="javascript:0" data-id="{{id}}" class="text-success reply">Reply</a>
+                                            </div>
+                                        </div>
+                                        <div class="replybox">
+                                        </div>
+                                            {{#replys}}
+                                            <div class="media ml-4">
+                                                <div class="media-body">
+                                                    <p class="text-muted mb-0">
+                                                      <a class="underline no-color-change" href="/user/{{user.username}}">{{user.username}}</a>
+                                                      | {{timestamp}}
+                                                    </p>
+                                                    <a href="/user/{{to.username}}" class="text-primary">@{{to.username}}</a>
+                                                    <p class="pre text-dark mb-0">{{comment}}</p>
+                                                    <a href="javascript:0" data-id="{{to.replyId}}" class="text-success reply">Reply</a>
+                                                </div>
+                                            </div>
+                                            <div class="ml-4 replybox">
+                                            </div>
+                                            {{/replys}}
+                                        {{/replys}}
+
+                                    </div>
 
                                 </div>
                             </div><!-- end col -->
@@ -125,9 +163,103 @@
         <script src="{{{cdn}}}/dist/js/global-custom.min.js"></script>
 
         <script type="text/javascript">
-            $(document).ready(function () {
-                $('#datatable').dataTable();
-            });
+        (function(){
+          $( "#comment-form" ).submit(function( event ) {
+            event.preventDefault();
+
+            // grab form values
+            var commentData = {
+              comment: $( "#comment" ).val(),
+              topicSlug: $( "#topic-slug" ).val()
+            }
+
+            if (commentData.comment.length == 0) {
+              alert('error', "Please enter the topic name");
+              return;
+            }
+
+            //now send ajax request
+            $.ajax({
+              url: '/api/reply',
+              type: 'POST',
+              data: commentData,
+              success: function(data, textStatus, jqXHR) {
+                if(data.confirmation != 'success') {
+                  alert('error', data.data);
+                } else {
+                  alert('success', `Comment: '${commentData.comment}' was succesfully posted.`);
+                }
+
+              },
+              error: function(jqHXR, textStatus, err) {
+                alert('error', err);
+              }
+            })
+          });
+
+          $('.reply').on('click', function(event){
+            console.log($(this).closest('.media'))
+            $('.replybox').empty(); // clear all other reply comment boxes
+
+            if({{#user}}true{{/user}}{{^user}}false{{/user}}) {
+                $(this).closest('.media').next('.replybox').html(`
+                <form id="reply-form" class="form-horizontal" role="form">
+                  <div class="form-group">
+                      <label for="reply">Posting a comment as {{user.username}}</label>
+                      <textarea class="form-control" id="reply" aria-describedby="reply placeholder="What are your thoughts?" rows="6"></textarea>
+                  </div>
+
+                  <div class="form-group row mb-0">
+                      <div class="col-12">
+                          <button type="submit" class="btn btn-info waves-effect waves-light">Reply</button>
+                      </div>
+                  </div>
+
+                  <input type="hidden" id="reply-topic-slug" value="{{topic.slug}}" />
+                  <input type="hidden" id="reply-to-id" value="${$(this).attr("data-id")}" />
+                </form>`);
+
+                // for replys to comments
+                $( "#reply-form" ).submit(function( event ) {
+                  event.preventDefault();
+
+                  // grab form values
+                  var replyData = {
+                    comment: $( "#reply" ).val(),
+                    topicSlug: $( "#reply-topic-slug" ).val(),
+                    to: {
+                      replyId: $( "#reply-to-id" ).val()
+                    }
+                  }
+
+                  if (replyData.comment.length == 0) {
+                    alert('error', "Please enter a comment");
+                    return;
+                  }
+
+                  //now send ajax request
+                  $.ajax({
+                    url: '/api/reply/second-level',
+                    type: 'POST',
+                    data: replyData,
+                    success: function(data, textStatus, jqXHR) {
+                      if(data.confirmation != 'success') {
+                        alert('error', data.data);
+                      } else {
+                        alert('success', `Reply: '${replyData.comment}' was succesfully posted.`);
+                      }
+
+                    },
+                    error: function(jqHXR, textStatus, err) {
+                      alert('error', err);
+                    }
+                  })
+                });
+              } else {
+                $(this).closest('.media').next('.replybox').html(`<p class="mb-0">You must be logged in to comment!</p>`);
+              }
+          });
+        })()
         </script>
 
     </body>

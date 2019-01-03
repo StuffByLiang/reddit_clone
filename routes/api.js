@@ -86,4 +86,22 @@ router.get('/:resource/:id', (req, res) => {
 			})
 		})
 })
+
+router.post('/reply/second-level', (req, res) => {
+	const controller = controllers['reply'];
+
+	controller.postSecondLevel(req, req.body)
+		.then(data => {
+			res.json({
+				confirmation: 'success',
+				data: data
+			})
+		})
+		.catch(err => {
+			res.json({
+				confirmation: 'fail',
+				data: err.message
+			})
+		})
+})
 module.exports = router
