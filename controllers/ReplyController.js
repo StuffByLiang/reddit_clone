@@ -41,17 +41,26 @@ module.exports = {
           })
             .then(topics => {
               if(topics.length > 0) {
-      	        //if found within the database, everything is okay, next get user info
+      	        //if found within the database, everything is okay
                 body.to = {
                   slug: topics[0].slug,
-                  id: topics[0].id
+                  id: topics[0].id,
+                  topicId: topics[0].id
                 }
-      	        return turbo.fetchOne('user', req.vertexSession.user.id)
+
+                // Now update topic number of replies
+                return turbo.updateEntity('topic', topics[0].id, {
+                  numReplies: topics[0].numReplies + 1
+                });
 
       	      } else if(topics.length === 0) {
       	        //if there are no results, throw an error
       	        reject({message: "Topic not found."})
       	      }
+            })
+            .then(data => {
+              // then get user data
+              return turbo.fetchOne('user', req.vertexSession.user.id)
             })
             .then(user => {
               body['user'] = {
@@ -90,12 +99,23 @@ module.exports = {
               body['to'] = {
                 username: reply.user.username,
                 userId: reply.user.id,
-                replyId: body['to[replyId]']
+                replyId: body['to[replyId]'],
+                topicId: reply.to.topicId
               }
 
               delete body['to[replyId]']; // idk this is some bug
 
-    	        //if found within the database, everything is okay, next get user info
+              // Now fetch topic
+              return turbo.fetchOne('topic', reply.to.topicId);
+            })
+            .then(topic => {
+              // Now update the topic number of replys
+              return turbo.updateEntity('topic', topic.id, {
+                numReplies: topic.numReplies + 1
+              });
+            })
+            .then(data => {
+              // if found within the database, everything is okay, next get user info
     	        return turbo.fetchOne('user', req.vertexSession.user.id)
             })
             .then(user => {
