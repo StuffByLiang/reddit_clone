@@ -141,6 +141,8 @@
               return;
             }
 
+            alert('Loading', '');
+
             //now send ajax request
             $.ajax({
               url: '/api/room',
@@ -151,6 +153,7 @@
                   alert('error', data.data);
                 } else {
                   alert('success', `Room: '${roomData.category}' was succesfully created.`);
+                  redirect('/posts', 1000)
                 }
 
               },

@@ -45,7 +45,8 @@ module.exports = {
                 body.to = {
                   slug: topics[0].slug,
                   id: topics[0].id,
-                  topicId: topics[0].id
+                  topicId: topics[0].id,
+                  replyId: topics[0].id
                 }
 
                 // Now update topic number of replies
@@ -99,11 +100,12 @@ module.exports = {
               body['to'] = {
                 username: reply.user.username,
                 userId: reply.user.id,
-                replyId: body['to[replyId]'],
+                replyId: body['to[commentId]'],
                 topicId: reply.to.topicId
               }
 
               delete body['to[replyId]']; // idk this is some bug
+              delete body['to[commentId]']; // idk this is some bug
 
               // Now fetch topic
               return turbo.fetchOne('topic', reply.to.topicId);

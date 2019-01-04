@@ -1,7 +1,27 @@
 window.alert = function (title, message) {
+  if(title === "Loading") {
+    message = `<div class="sk-circle">
+                          <div class="sk-circle1 sk-child"></div>
+                          <div class="sk-circle2 sk-child"></div>
+                          <div class="sk-circle3 sk-child"></div>
+                          <div class="sk-circle4 sk-child"></div>
+                          <div class="sk-circle5 sk-child"></div>
+                          <div class="sk-circle6 sk-child"></div>
+                          <div class="sk-circle7 sk-child"></div>
+                          <div class="sk-circle8 sk-child"></div>
+                          <div class="sk-circle9 sk-child"></div>
+                          <div class="sk-circle10 sk-child"></div>
+                          <div class="sk-circle11 sk-child"></div>
+                          <div class="sk-circle12 sk-child"></div>
+                      </div>`;
+  }
   $("#alert-modal .modal-title").html(title)
   $("#alert-modal .modal-body").html(message)
-  $('.modal').modal('hide'); //hide all modals first
+
+  // check if alert modal is showing
+  if(($("#alert-modal").data('bs.modal') || {})._isShown === false) {
+    $('.modal').modal('hide'); //hide all other modals first
+  }
   $("#alert-modal").modal('show');
 };
 
@@ -24,6 +44,8 @@ window.alert = function (title, message) {
       alert('error', "Please enter your password");
       return;
     }
+
+    alert("Loading", "");
 
     //now send ajax request
     $.ajax({
@@ -65,6 +87,8 @@ window.alert = function (title, message) {
       return;
     }
 
+    alert("Loading", "");
+
     //now send ajax request
     $.ajax({
       url: '/auth/register',
@@ -86,3 +110,12 @@ window.alert = function (title, message) {
 
   });
 })()
+
+window.redirect = function(location, time) {
+  if(time === 0) window.location.href = location;
+  else {
+    setTimeout(function() {
+      window.location.href = location;
+    }, time)
+  }
+}

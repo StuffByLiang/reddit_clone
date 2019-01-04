@@ -6,6 +6,8 @@ var gp_concat = require('gulp-concat')
 var gp_rename = require('gulp-rename')
 var gp_uglify = require('gulp-uglify')
 var path = require('path')
+var babel = require('gulp-babel')
+
 
 // dashboard css
 gulp.task('css-vendor', function(){
@@ -16,6 +18,7 @@ gulp.task('css-vendor', function(){
                 './public/css/icons.css',
                 './public/css/metismenu.min.css',
                 './public/css/style.css',
+                './public/plugins/spinkit/spinkit.css',
                 './public/css/custom.css'
             ]
         )
@@ -90,10 +93,15 @@ gulp.task('js-global-custom', function(){
                 './public/js/login.js'
             ]
         )
+        .pipe(babel({
+          presets: ['es2015']
+        }))
         .pipe(gp_concat('global-custom.min.js'))
         .pipe(gulp.dest('./public/dist/js/'))
         .pipe(gp_rename('global-custom.min.js'))
-        .pipe(gp_uglify())
+        .pipe(gp_uglify().on('error', function(e){
+            console.log(e);
+         }))
         .pipe(gulp.dest('./public/dist/js/'))
 });
 

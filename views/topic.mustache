@@ -100,7 +100,7 @@
                                                 </p>
                                                 <!-- <a href="" class="text-dark">@Michael</a> -->
                                                 <p class="pre text-dark mb-0">{{comment}}</p>
-                                                <a href="javascript:0" data-id="{{id}}" class="text-success reply">Reply</a>
+                                                <a href="javascript:0" data-id="{{id}}" data-commentId="{{id}}" class="text-success reply">Reply</a>
                                             </div>
                                         </div>
                                         <div class="replybox">
@@ -114,7 +114,7 @@
                                                     </p>
                                                     <a href="/user/{{to.username}}" class="text-primary">@{{to.username}}</a>
                                                     <p class="pre text-dark mb-0">{{comment}}</p>
-                                                    <a href="javascript:0" data-id="{{to.replyId}}" class="text-success reply">Reply</a>
+                                                    <a href="javascript:0" data-id="{{id}}" data-commentId="{{to.replyId}}" class="text-success reply">Reply</a>
                                                 </div>
                                             </div>
                                             <div class="ml-4 replybox">
@@ -167,6 +167,8 @@
           $( "#comment-form" ).submit(function( event ) {
             event.preventDefault();
 
+
+
             // grab form values
             var commentData = {
               comment: $( "#comment" ).val(),
@@ -178,6 +180,9 @@
               return;
             }
 
+            $( "#comment" ).val(""); // reset comment field
+            alert('Loading', "");
+
             //now send ajax request
             $.ajax({
               url: '/api/reply',
@@ -188,6 +193,7 @@
                   alert('error', data.data);
                 } else {
                   alert('success', `Comment: '${commentData.comment}' was succesfully posted.`);
+                  redirect(window.location.pathname, 1000)
                 }
 
               },
@@ -217,6 +223,7 @@
 
                   <input type="hidden" id="reply-topic-slug" value="{{topic.slug}}" />
                   <input type="hidden" id="reply-to-id" value="${$(this).attr("data-id")}" />
+                  <input type="hidden" id="comment-to-id" value="${$(this).attr("data-commentId")}" />
                 </form>`);
 
                 // for replys to comments
@@ -228,7 +235,8 @@
                     comment: $( "#reply" ).val(),
                     topicSlug: $( "#reply-topic-slug" ).val(),
                     to: {
-                      replyId: $( "#reply-to-id" ).val()
+                      replyId: $( "#reply-to-id" ).val(),
+                      commentId: $( "#comment-to-id" ).val()
                     }
                   }
 
@@ -236,6 +244,9 @@
                     alert('error', "Please enter a comment");
                     return;
                   }
+
+                  $( "#reply" ).val(""); // reset comment field
+                  alert('Loading', "");
 
                   //now send ajax request
                   $.ajax({
@@ -247,6 +258,8 @@
                         alert('error', data.data);
                       } else {
                         alert('success', `Reply: '${replyData.comment}' was succesfully posted.`);
+
+                        redirect(window.location.pathname, 1000)
                       }
 
                     },

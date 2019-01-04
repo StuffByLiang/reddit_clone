@@ -143,6 +143,11 @@
               return;
             }
 
+            $( "#topic-title" ).val('')
+            $( "#topic-description" ).val('')
+
+            alert('Loading', '');
+
             //now send ajax request
             $.ajax({
               url: '/api/topic',
@@ -153,6 +158,7 @@
                   alert('error', data.data);
                 } else {
                   alert('success', `Topic: '${topicData.title}' was succesfully created.`);
+                  redirect('/posts', 1000)
                 }
 
               },
