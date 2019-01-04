@@ -44,90 +44,112 @@
                 <div class="content">
                     <div class="container-fluid">
 
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card-box">
-                                    <h2 class="header-title mb-0"><a class="underline no-color-change" href="/room/{{topic.room.slug}}">{{topic.room.name}}</a></h2>
-                                    <p class="text-muted mb-0">Posted by <a class="underline no-color-change" href="/user/{{topic.user.username}}">{{topic.user.username}}</a> | {{topic.timestamp}}</p>
-                                    <h4 class="">{{topic.title}}</h4>
-                                    <p class="pre">{{topic.description}}</p>
+                      <div class="row">
+                          <div class="col-sm-8">
+                              <div class="row">
+                                  <div class="col-12">
+                                      <div class="card-box">
+                                          <p class="text-muted mb-0">Posted by <a class="underline no-color-change" href="/user/{{topic.user.username}}">{{topic.user.username}}</a> | {{topic.timestamp}}</p>
+                                          <h4 class="">{{topic.title}}</h4>
+                                          <p class="pre">{{topic.description}}</p>
 
-                                    <p class="text-muted tickets-list"><i class="mdi mdi-comment"></i> {{topic.numReplies}}</p>
+                                          <p class="text-muted tickets-list"><i class="mdi mdi-comment"></i> {{topic.numReplies}}</p>
 
-                                    <div class="mt-3">
-                                        <!-- If logged in -->
-                                        {{#user}}
-                                        <form id="comment-form" class="form-horizontal" role="form">
-                                          <div class="form-group">
-                                              <label for="comment">Posting a comment as {{user.username}}</label>
-                                              <textarea class="form-control" id="comment" aria-describedby="comment" placeholder="What are your thoughts?" rows="6"></textarea>
+                                          <div class="mt-3">
+                                              <!-- If logged in -->
+                                              {{#user}}
+                                              <form id="comment-form" class="form-horizontal" role="form">
+                                                <div class="form-group">
+                                                    <label for="comment">Posting a comment as {{user.username}}</label>
+                                                    <textarea class="form-control" id="comment" aria-describedby="comment" placeholder="What are your thoughts?" rows="6"></textarea>
+                                                </div>
+
+                                                <div class="form-group row mb-0">
+                                                    <div class="col-12">
+                                                        <button type="submit" class="btn btn-info waves-effect waves-light">Comment</button>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" id="topic-slug" value="{{topic.slug}}" />
+                                              </form>
+                                              {{/user}}
+
+                                              <!-- If not logged in -->
+                                              {{^user}}
+                                              <p class="mb-0">You must be logged in to comment!</p>
+                                              {{/user}}
                                           </div>
+                                      </div>
+                                  </div><!-- end col -->
+                              </div>
+                              <!-- end row -->
 
-                                          <div class="form-group row mb-0">
-                                              <div class="col-12">
-                                                  <button type="submit" class="btn btn-info waves-effect waves-light">Comment</button>
-                                              </div>
-                                          </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title">Comments</h4>
+                                        <hr class="m-0" />
 
-                                          <input type="hidden" id="topic-slug" value="{{topic.slug}}" />
-                                        </form>
-                                        {{/user}}
+                                        <div>
 
-                                        <!-- If not logged in -->
-                                        {{^user}}
-                                        <p class="mb-0">You must be logged in to comment!</p>
-                                        {{/user}}
-                                    </div>
-                                </div>
-                            </div><!-- end col -->
-                        </div>
-                        <!-- end row -->
-
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card-box">
-                                    <h4 class="header-title">Comments</h4>
-                                    <hr class="m-0" />
-
-                                    <div>
-
-                                        {{#replys}}
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <p class="text-muted mb-0">
-                                                  <a class="underline no-color-change" href="/user/{{user.username}}">{{user.username}}</a>
-                                                  | {{timestamp}}
-                                                </p>
-                                                <!-- <a href="" class="text-dark">@Michael</a> -->
-                                                <p class="pre text-dark mb-0">{{comment}}</p>
-                                                <a href="javascript:0" data-id="{{id}}" data-commentId="{{id}}" class="text-success reply">Reply</a>
-                                            </div>
-                                        </div>
-                                        <div class="replybox">
-                                        </div>
                                             {{#replys}}
-                                            <div class="media ml-4">
+                                            <div class="media">
                                                 <div class="media-body">
                                                     <p class="text-muted mb-0">
                                                       <a class="underline no-color-change" href="/user/{{user.username}}">{{user.username}}</a>
                                                       | {{timestamp}}
                                                     </p>
-                                                    <a href="/user/{{to.username}}" class="text-primary">@{{to.username}}</a>
+                                                    <!-- <a href="" class="text-dark">@Michael</a> -->
                                                     <p class="pre text-dark mb-0">{{comment}}</p>
-                                                    <a href="javascript:0" data-id="{{id}}" data-commentId="{{to.replyId}}" class="text-success reply">Reply</a>
+                                                    <a href="javascript:void(0)" data-id="{{id}}" data-commentId="{{id}}" class="text-success reply">Reply</a>
                                                 </div>
                                             </div>
-                                            <div class="ml-4 replybox">
+                                            <div class="replybox">
                                             </div>
+                                                {{#replys}}
+                                                <div class="media ml-4">
+                                                    <div class="media-body">
+                                                        <p class="text-muted mb-0">
+                                                          <a class="underline no-color-change" href="/user/{{user.username}}">{{user.username}}</a>
+                                                          | {{timestamp}}
+                                                        </p>
+                                                        <a href="/user/{{to.username}}" class="text-primary">@{{to.username}}</a>
+                                                        <p class="pre text-dark mb-0">{{comment}}</p>
+                                                        <a href="javascript:void(0)" data-id="{{id}}" data-commentId="{{to.replyId}}" class="text-success reply">Reply</a>
+                                                    </div>
+                                                </div>
+                                                <div class="ml-4 replybox">
+                                                </div>
+                                                {{/replys}}
                                             {{/replys}}
-                                        {{/replys}}
+
+                                        </div>
 
                                     </div>
-
-                                </div>
-                            </div><!-- end col -->
+                                </div><!-- end col -->
+                            </div>
+                            <!-- end row -->
                         </div>
-                        <!-- end row -->
+                        <!-- end col -->
+
+                        <div class="col-sm-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card-box">
+                                        <h3 class="header-title">Room: {{roomDetails.name}}</h3>
+                                        <p class="text-muted">{{roomDetails.description}}</p>
+                                        <p class="text-muted">{{roomDetails.subscribers}} subscribers</p>
+                                        <a href="/room/{{roomDetails.slug}}/" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Visit Room Homepage</a>
+                                        <a href="/room/{{roomDetails.slug}}/addtopic/" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Add a new topic</a>
+                                        <a href="javascript:subscribe()" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Subscribe</a>
+                                    </div>
+                                </div><!-- end col -->
+                            </div>
+                            <!-- end row -->
+                        </div>
+
+                      </div>
+                      <!-- end row -->
 
                     </div> <!-- container -->
 

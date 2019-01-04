@@ -13,6 +13,17 @@ router.get('/special', (req, res) => {
 		})
 })
 
+router.get('/special2', (req, res) => {
+	turbo.fetch('topic', null)
+		.then(replys => {
+			for(reply of replys) {
+				turbo.updateEntity('topic', reply.id, {
+					numReplies: 0
+				}).then(data=>{console.log(data)})
+			}
+		})
+})
+
 router.post('/:resource', (req, res) => {
 
 	const resource = req.params.resource;

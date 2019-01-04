@@ -18,7 +18,7 @@ module.exports = (req, res) => {
 
   turbo.fetch('room', null)
     .then(rooms => {
-      config.rooms = rooms;
+      config.allRooms = rooms;
 
       helpers.displayPage(req, res, 'rooms', config);
     })

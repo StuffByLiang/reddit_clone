@@ -26,6 +26,13 @@ module.exports = function(req, res, config, slug, topicSlug) {
       if(rooms.length > 0) {
         //if found within the database, continue on
 
+        config.roomDetails = {
+          name: rooms[0].category,
+          slug: rooms[0].slug,
+          description: rooms[0].description,
+          subscribers: rooms[0].subscribers.length
+        }
+
         // get the topic from the room
         return turbo.fetch('topic', {slug: topicSlug})
 

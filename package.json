@@ -4,7 +4,7 @@
   "server": false,
   "private": true,
   "scripts": {
-    "start2": "node ./bin/www",
+    "start2": "nodemon ./bin/www",
     "start": "turbo devserver",
     "deploy": "turbo deploy",
     "clean": "rimraf ./public/dist",
