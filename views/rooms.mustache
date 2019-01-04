@@ -59,82 +59,37 @@
                 <!-- Start Page content -->
                 <div class="content">
                     <div class="container-fluid">
-
-                        <!-- <div class="row">
-                            <div class="col-12">
-                                <div class="card-box">
-                                    <h4 class="header-title">Latest Posts</h4>
-
-
-
-
-                                    <table class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap" cellspacing="0" width="100%" id="datatable">
-                                        <thead>
-                                        <tr>
-                                            <th>Room</th>
-                                            <th>Posted by</th>
-                                            <th>Topic</th>
-                                            <th>Description</th>
-                                            <th>Replies</th>
-                                            <th>Date</th>
-                                            <th class="hidden-sm">Action</th>
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-
-                                            <tr>
-                                                <td><a href="/room/{{room.slug}}"><b>{{room.name}}</b></a></td>
-                                                <td>
-                                                    <a href="javascript: void(0);">
-                                                        <img src="{{{cdn}}}/images/users/avatar-2.jpg" alt="contact-img" title="contact-img" class="rounded-circle" />
-                                                        <span class="ml-2">{{user.username}}</span>
-                                                    </a>
-                                                </td>
-
-                                                <td><a href="/room/{{room.slug}}/topic/{{slug}}">{{title}}</a></td>
-
-                                                <td>{{description}}</td>
-
-                                                <td>
-                                                    <span class="badge badge-info">{{numReplies}}</span>
-                                                </td>
-
-                                                <td>{{timestamp}}</td>
-
-                                                <td>
-                                                    <div class="btn-group dropdown">
-                                                        <a href="javascript: void(0);" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit Ticket</a>
-                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-check-all mr-2 text-muted font-18 vertical-middle"></i>Close</a>
-                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
-                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark as Unread</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- end row -->
-
-                        {{#allRooms}}
                         <div class="row">
-                            <div class="col-12">
-                                <div href="/room/{{slug}}" class="card-box clickable">
-                                    <h4 class="mt-0">{{category}}</h4>
-                                    <p class="text-muted pre">{{description}}</p>
-                                    <p class="text-muted tickets-list mb-0">Subscribers: {{subscribers.length}}</p>
+                            <div class="col-sm-8">
+                                {{#allRooms}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div href="/room/{{slug}}" class="card-box clickable">
+                                            <h4 class="mt-0">{{category}}</h4>
+                                            <p class="text-muted pre">{{description}}</p>
+                                            <p class="text-muted tickets-list mb-0">Subscribers: {{subscribers.length}}</p>
+                                        </div>
+                                    </div><!-- end col -->
                                 </div>
+                                <!-- end row -->
+                                {{/allRooms}}
                             </div><!-- end col -->
-                        </div>
-                        <!-- end row -->
-                        {{/allRooms}}
+
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card-box">
+                                            <h3 class="header-title">Rooms</h3>
+                                            <p class="text-muted">Rooms are places to discuss a specific topic</p>
+                                            <p class="text-muted">People can make new topics in rooms where other people can then comment on them!</p>
+                                            <a href="/addroom" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Add a new room</a>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                                <!-- end row -->
+                            </div><!-- end col -->
+
+                        </div> <!-- end row -->
 
                     </div> <!-- container -->
 
