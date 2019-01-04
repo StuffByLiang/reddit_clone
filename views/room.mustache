@@ -17,7 +17,7 @@
         <!-- App css -->
         <link href="{{{cdn}}}/dist/css/vendor.min.css" rel="stylesheet" type="text/css" />
 
-        <script src="/js/modernizr.min.js"></script>
+        <script src="{{{cdn}}}/js/modernizr.min.js"></script>
 
         <style>
 
@@ -29,10 +29,6 @@
         .card-box.clickable:hover {
           cursor: pointer;
           border: 1px solid #000;
-        }
-
-        a:hover {
-          text-decoration: underline!important;
         }
 
         </style>
@@ -127,20 +123,37 @@
                             </div>
                         </div> -->
                         <!-- end row -->
-
-                        {{#topics}}
                         <div class="row">
-                            <div class="col-12">
-                                <div href="/room/{{room.slug}}/topic/{{slug}}" class="card-box clickable">
-                                    <p class="text-muted tickets-list"><a href="/room/{{room.slug}}">{{room.name}}</a> | Posted by <a href="/user/{{user.username}}">{{user.username}}</a> | {{timestamp}}</p>
-                                    <h4 class="">{{title}}</h4>
-                                    <p class="text-muted pre">{{description}}</p>
-                                    <p class="text-muted tickets-list mb-0"><i class="mdi mdi-comment"></i> {{numReplies}}</p>
+                            <div class="col-sm-8">
+                                {{#topics}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div href="/room/{{room.slug}}/topic/{{slug}}" class="card-box clickable">
+                                            <p class="text-muted tickets-list"><a class="underline" href="/room/{{room.slug}}">{{room.name}}</a> | Posted by <a class="underline" href="/user/{{user.username}}">{{user.username}}</a> | {{timestamp}}</p>
+                                            <h4 class="">{{title}}</h4>
+                                            <p class="text-muted pre">{{description}}</p>
+                                            <p class="text-muted tickets-list mb-0"><i class="mdi mdi-comment"></i> {{numReplies}}</p>
+                                        </div>
+                                    </div><!-- end col -->
                                 </div>
-                            </div><!-- end col -->
+                                <!-- end row -->
+                                {{/topics}}
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card-box">
+                                            <h3 class="header-title">Room: {{roomDetails.name}}</h3>
+                                            <p class="text-muted">{{roomDetails.description}}</p>
+                                            <p class="text-muted">{{roomDetails.subscribers}} subscribers</p>
+                                            <a href="/room/{{roomDetails.slug}}/addtopic/" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Add a new topic</a>
+                                            <a href="javascript:subscribe()" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Subscribe</a>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                                <!-- end row -->
+                            </div>
                         </div>
-                        <!-- end row -->
-                        {{/topics}}
 
                     </div> <!-- container -->
 
@@ -183,6 +196,28 @@
                     window.location.href = $(this).attr('href');;
                 });
             });
+
+            // send an ajax request to subscribe
+            function subscribe() {
+              $.ajax({
+                url: '/room/{{roomDetails.slug}}/subscribe',
+                type: 'POST',
+                data: {},
+                success: function(data, textStatus, jqXHR) {
+                  if(data.confirmation != 'success') {
+                    alert('error', data.data);
+                  } else {
+                    alert('success', data.data);
+
+                    redirect(window.location.pathname, 1000)
+                  }
+
+                },
+                error: function(jqHXR, textStatus, err) {
+                  alert('error', err);
+                }
+              })
+            }
         </script>
 
     </body>

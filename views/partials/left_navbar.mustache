@@ -38,18 +38,24 @@
 
                 <li>
                     <a href="/posts">
-                        <i class="fi-air-play"></i><span> Posts </span>
+                        <i class="fi-clock"></i><span> Latest Posts </span>
                     </a>
                 </li>
 
                 <li>
                     <a href="/addroom">
-                        <i class="fi-air-play"></i><span> Add Room </span>
+                        <i class="fi-circle-plus"></i><span> Add Room </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="javascript: void(0);"><i class="fi-layers"></i> <span> Subscribed Rooms </span> <span class="menu-arrow"></span></a>
+                    <a href="/rooms">
+                        <i class="fi-layers"></i><span> All Rooms </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);"><i class="fi-ribbon"></i> <span> Subscribed Rooms </span> <span class="menu-arrow"></span></a>
                     <ul class="nav-second-level" aria-expanded="false">
                         {{#rooms}}
                         <li><a href="/room/{{slug}}">{{category}}</a></li>

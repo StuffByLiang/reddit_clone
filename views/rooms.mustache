@@ -1,37 +1,183 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">
-{{>head}}
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Highdmin - Responsive Bootstrap 4 Admin Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<body class="container">
-	<div class="row">
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{{cdn}}}/images/favicon.ico">
 
-		<div class="col-md-6 col-md-offset-3" style="text-align:center;margin-bottom:48px">
-			<h1>Rooms</h1>
-			<hr />
-			<div style="background:#f9f9f9;border:1px solid #ddd;border-radius:3px;padding:12px">
-				<h2>Create Room</h2>
-				<form action="/api/room" method="POST">
-					<input placeholder="category" class="form-control" type="text" name="category" />
-					<input placeholder="description" class="form-control" type="text" name="description" />
-					<button type="submit">Create</button>
-				</form>
-			</div>
+        <!-- DataTables -->
+        <link href="{{{cdn}}}/dist/pages/home/css/home.min.css" rel="stylesheet" type="text/css"/>
 
-		</div>
-	</div>
+        <!-- App css -->
+        <link href="{{{cdn}}}/dist/css/vendor.min.css" rel="stylesheet" type="text/css" />
+
+				<style>
+
+        .card-box.clickable {
+          display: block;
+          border: 1px solid #fff;
+        }
+
+        .card-box.clickable:hover {
+          cursor: pointer;
+          border: 1px solid #000;
+        }
+
+        </style>
+
+        <script src="{{{cdn}}}/js/modernizr.min.js"></script>
+    </head>
 
 
-  <!-- Turbo library imports: jQuery, Turbo CDN, sample app.js.
-  NOTE: These should be minified in a build script -->
-  <script type="text/javascript" src="/js/jquery.js"></script>
+    <body>
 
-  <!-- For file uploading. Remove if file upload not necessry -->
-  <script type="text/javascript" src="/js/dropzone.js"></script>
+        <!-- Begin page -->
+        <div id="wrapper">
 
-  <!-- Turbo CDN. Better to use CDN than to store locally. -->
-  <script type="text/javascript" src="https://cdn.turbo360-dev.com/dist/turbo.min.js"></script>
+            <!-- ========== Left Sidebar Start ========== -->
+            {{>left_navbar}}
+            <!-- Left Sidebar End -->
 
-  <!-- Your app specific code -->
-  <script type="text/javascript" src="/js/app.js"></script>
-</body>
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+
+                <!-- Top Bar Start -->
+                {{>topbar}}
+                <!-- Top Bar End -->
+
+
+
+                <!-- Start Page content -->
+                <div class="content">
+                    <div class="container-fluid">
+
+                        <!-- <div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <h4 class="header-title">Latest Posts</h4>
+
+
+
+
+                                    <table class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap" cellspacing="0" width="100%" id="datatable">
+                                        <thead>
+                                        <tr>
+                                            <th>Room</th>
+                                            <th>Posted by</th>
+                                            <th>Topic</th>
+                                            <th>Description</th>
+                                            <th>Replies</th>
+                                            <th>Date</th>
+                                            <th class="hidden-sm">Action</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <tr>
+                                                <td><a href="/room/{{room.slug}}"><b>{{room.name}}</b></a></td>
+                                                <td>
+                                                    <a href="javascript: void(0);">
+                                                        <img src="{{{cdn}}}/images/users/avatar-2.jpg" alt="contact-img" title="contact-img" class="rounded-circle" />
+                                                        <span class="ml-2">{{user.username}}</span>
+                                                    </a>
+                                                </td>
+
+                                                <td><a href="/room/{{room.slug}}/topic/{{slug}}">{{title}}</a></td>
+
+                                                <td>{{description}}</td>
+
+                                                <td>
+                                                    <span class="badge badge-info">{{numReplies}}</span>
+                                                </td>
+
+                                                <td>{{timestamp}}</td>
+
+                                                <td>
+                                                    <div class="btn-group dropdown">
+                                                        <a href="javascript: void(0);" class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit Ticket</a>
+                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-check-all mr-2 text-muted font-18 vertical-middle"></i>Close</a>
+                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
+                                                            <a class="dropdown-item" href="#"><i class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark as Unread</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- end row -->
+
+                        {{#rooms}}
+                        <div class="row">
+                            <div class="col-12">
+                                <div href="/room/{{slug}}" class="card-box clickable">
+                                    <h4 class="mt-0">{{category}}</h4>
+                                    <p class="text-muted pre">{{description}}</p>
+                                    <p class="text-muted tickets-list mb-0">Subscribers: {{subscribers.length}}</p>
+                                </div>
+                            </div><!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        {{/rooms}}
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer text-right">
+                    {{>footer}}
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <!-- modals -->
+        {{>modal_login}}
+
+        <!-- jQuery  -->
+        <script src="{{{cdn}}}/dist/js/vendor.min.js"></script>
+
+        <script src="{{{cdn}}}/dist/pages/home/js/home.min.js"></script>
+
+        <!-- App js (Idk what this is for lol) -->
+        <script src="{{{cdn}}}/dist/js/app.min.js"></script>
+
+        <!-- global customs -->
+        <script src="{{{cdn}}}/dist/js/global-custom.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // $('#datatable').dataTable();
+
+                $('.clickable').on('click', function(event){
+                    window.location.href = $(this).attr('href');;
+                });
+            });
+        </script>
+
+    </body>
 </html>

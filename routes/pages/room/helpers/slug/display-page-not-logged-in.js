@@ -22,6 +22,11 @@ module.exports = function(req, res, config, slug) {
       if(data.length > 0) {
         //if found within the database, render the room
         config['pageTitle'] = data[0].category;
+        config.roomDetails = {
+          name: data[0].category,
+          description: data[0].description,
+          subscribers: data[0].subscribers.length
+        }
         res.render('room', config)
       } else if(data.length === 0) {
         //if there are no results, tell client the room was not found

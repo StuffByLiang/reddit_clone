@@ -49,12 +49,12 @@ router.get('/posts', (req, res) => {
 
 })
 
-router.get('/rooms', (req, res) => {
-	res.render('rooms', null)
-})
+router.get('/rooms', require('./pages/rooms'))
 
 router.get('/room/:slug', require('./pages/room/slug.js'))
 router.get('/room/:slug/addtopic', require('./pages/room/addtopic.js'))
+
+router.post('/room/:slug/subscribe', require('./pages/room/subscribe.js'))
 
 router.get('/addroom', require('./pages/addroom'))
 

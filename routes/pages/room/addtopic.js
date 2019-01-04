@@ -35,7 +35,7 @@ module.exports = (req, res) => {
 	      if(rooms.length > 0) {
 	        //if found within the database, render the room
 
-					config['pagetitle'] = rooms.category;
+					config['pageTitle'] = rooms[0].category + ' > Add A Topic';
 
 	        res.render('addtopic', config)
 	      } else if(rooms.length === 0) {
