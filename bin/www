@@ -62,9 +62,8 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-var io = require('socket.io').listen(server);
-
-// webSocket
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
+// this controls socket.io
+app.use((req, res, next) => {
+  app.socket(server, req);
+  next();
+})

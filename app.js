@@ -39,4 +39,7 @@ app.use('/', index)
 app.use('/api', api) // sample API Routes
 app.use('/auth', auth) // sample API Routes
 
+// this controls the chat feature
+app.socket = require('./socket');
+
 module.exports = app

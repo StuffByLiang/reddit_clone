@@ -21,6 +21,9 @@ module.exports = (req, res) => {
             confirmation: 'fail',
             data: 'Already subscribed!'
           })
+
+					return;
+
         } else {
           // add logged in user to the subscribers
           rooms[0].subscribers.push(req.vertexSession.user.id)
@@ -31,10 +34,11 @@ module.exports = (req, res) => {
         }
       })
       .then(data => {
-        res.json({
-          confirmation: 'success',
-          data: 'Succesfully subscribed!'
-        })
+				if(data !== undefined)
+	        res.json({
+	          confirmation: 'success',
+	          data: 'Succesfully subscribed!'
+	        })
       })
       .catch(err => {
         res.json({

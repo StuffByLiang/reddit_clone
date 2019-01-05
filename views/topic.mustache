@@ -295,6 +295,28 @@
               }
           });
         })()
+
+        // send an ajax request to subscribe
+        function subscribe() {
+          $.ajax({
+            url: '/room/{{roomDetails.slug}}/subscribe',
+            type: 'POST',
+            data: {},
+            success: function(data, textStatus, jqXHR) {
+              if(data.confirmation != 'success') {
+                alert('error', data.data);
+              } else {
+                alert('success', data.data);
+
+                redirect(window.location.pathname, 1000)
+              }
+
+            },
+            error: function(jqHXR, textStatus, err) {
+              alert('error', err);
+            }
+          })
+        }
         </script>
 
     </body>

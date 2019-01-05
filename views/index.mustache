@@ -337,7 +337,13 @@
 				{{>js_imports}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
         <script>
-          var socket = io();
+          $(function () {
+            var socket = io();
+
+            socket.on('message', function(msg){
+              alert('Message', msg);
+            });
+          });
         </script>
 
     </body>
