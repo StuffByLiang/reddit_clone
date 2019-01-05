@@ -4,8 +4,8 @@
   "server": false,
   "private": true,
   "scripts": {
-    "start2": "nodemon ./bin/www",
-    "start": "turbo devserver",
+    "start": "nodemon ./bin/www",
+    "start2": "turbo devserver",
     "deploy": "turbo deploy",
     "clean": "rimraf ./public/dist",
     "build": "npm run clean && cross-env NODE_ENV=production gulp prod"
@@ -39,6 +39,7 @@
     "send": "0.16.2",
     "serve-static": "1.13.2",
     "setprototypeof": "1.1.0",
+    "socket.io": "^2.2.0",
     "statuses": "^1.4.0",
     "time-ago": "^0.2.1",
     "turbo360": "latest",

@@ -23,10 +23,10 @@ To run dev server, install Turbo CLI globally:
 $ sudo npm install turbo-cli -g
 ```
 
-Then run devserver from project root directory:
+To start the server, run
 
 ```
-$ turbo devserver
+$ npm start
 ```
 
 To build for production, run build:

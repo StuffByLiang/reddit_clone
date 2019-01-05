@@ -61,3 +61,10 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+var io = require('socket.io').listen(server);
+
+// webSocket
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
