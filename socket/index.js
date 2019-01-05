@@ -7,13 +7,17 @@ module.exports = function (server, req) {
 
   // webSocket
   io.on('connection', function(socket){
-    turbo.fetchOne('user', req.vertexSession.user.id)
-      .then(user => {
-        console.log(`user ${user.username} connected`);
-      })
-      .catch(data => {
-        console.log(data)
-      })
+    if(req.vertexSession == null || req.vertexSession.user == null) {
+      console.log('An anonymous user connected')
+    } else {
+      turbo.fetchOne('user', req.vertexSession.user.id)
+        .then(user => {
+          console.log(`user ${user.username} connected`);
+        })
+        .catch(data => {
+          console.log(data)
+        })
+    }
 
     socket.on('disconnect', function(){
       console.log('user disconnected');
