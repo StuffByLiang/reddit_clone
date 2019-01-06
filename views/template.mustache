@@ -81,5 +81,12 @@
         <!-- global customs -->
         <script src="{{{cdn}}}/dist/js/global-custom.min.js"></script>
 
+        <!-- check logged in (for chat) -->
+        {{#user}}
+          {{>chat}}
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+          <script src="{{{cdn}}}/js/chat.js"></script>
+        {{/user}}
+
     </body>
 </html>
