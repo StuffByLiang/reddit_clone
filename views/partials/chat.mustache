@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="row">
+        <div class="chatbox chatbox22 chatbox--tray">
+            <div class="chatbox__title">
+                <h5><a href="javascript:void()">Messages</a></h5>
+                <button class="chatbox__title__close">
+                    <span>
+                        <svg viewBox="0 0 12 12" width="12px" height="12px">
+                            <line stroke="#FFFFFF" x1="11.75" y1="0.25" x2="0.25" y2="11.75"></line>
+                            <line stroke="#FFFFFF" x1="11.75" y1="11.75" x2="0.25" y2="0.25"></line>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-4 chatbox__users">
+
+                  <div class="chatbox__user__container d-flex">
+                    <img src="/images/users/avatar-1.jpg" alt="user" class="rounded-circle">
+                    <div class="justify-content-center">
+                      <p class="header-title">Username</p>
+                      <p class="text-muted">Text</p>
+                    </div>
+                  </div> <!-- end chatbox user container -->
+
+                </div>
+                <div class="col-8 chatbox__body">
+                  <div id="chatbox__body__messages" class="chatbox__body__messages">
+                    <div class="chatbox__body__message chatbox__body__message--right">
+                        <img src="https://www.gstatic.com/webp/gallery/2.jpg" alt="Picture">
+                        <div class="clearfix"></div>
+                        <div class="ul_section_full">
+                            <ul class="ul_msg">
+                                <li><strong>Person Name</strong><span class="text-muted"> 5:28 PM</span></li>
+                                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div> <!-- end chatbox message right -->
+                    <div class="chatbox__body__message chatbox__body__message--left">
+
+                        <img src="https://www.gstatic.com/webp/gallery/2.jpg" alt="Picture">
+                        <div class="clearfix"></div>
+                        <div class="ul_section_full">
+                            <ul class="ul_msg">
+                                <li><strong>Person Name</strong><span class="text-muted"> 5:28 PM</span></li>
+                                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div><!-- end chatbox message left -->
+                  </div> <!-- end chatbox body messages -->
+                  <div class="chatbox-input">
+                      <div class="input-group">
+                        <form id="message-form" class="w-100 d-flex">
+                          <input id="message" type="text" class="form-control input-sm chat__input" placeholder="Type your message here..." tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" contenteditable="true" />
+
+                          <span class="input-group-btn">
+                              <button type="submit" class="btn btn-primary waves-light waves-effect">Send</button>
+                          </span>
+                        </form>
+                      </div>
+                  </div>
+                </div><!-- end column.chatbox__body -->
+              </div><!-- end row -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+  let username = '{{user.username}}';
+</script>

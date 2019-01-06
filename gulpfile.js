@@ -19,7 +19,8 @@ gulp.task('css-vendor', function(){
                 './public/css/metismenu.min.css',
                 './public/css/style.css',
                 './public/plugins/spinkit/spinkit.css',
-                './public/css/custom.css'
+                './public/css/custom.css',
+                './public/css/chat.css'
             ]
         )
         .pipe(minifyCSS())
