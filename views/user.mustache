@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Highdmin - Responsive Bootstrap 4 Admin Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{{cdn}}}/images/favicon.ico">
+
+        <!-- DataTables -->
+        <link href="{{{cdn}}}/dist/pages/home/css/home.min.css" rel="stylesheet" type="text/css"/>
+
+        <!-- App css -->
+        <link href="{{{cdn}}}/dist/css/vendor.min.css" rel="stylesheet" type="text/css" />
+
+				<style>
+
+        .card-box.clickable {
+          display: block;
+          border: 1px solid #fff;
+        }
+
+        .card-box.clickable:hover {
+          cursor: pointer;
+          border: 1px solid #000;
+        }
+
+        </style>
+
+        <script src="{{{cdn}}}/js/modernizr.min.js"></script>
+    </head>
+
+
+    <body>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- ========== Left Sidebar Start ========== -->
+            {{>left_navbar}}
+            <!-- Left Sidebar End -->
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+
+                <!-- Top Bar Start -->
+                {{>topbar}}
+                <!-- Top Bar End -->
+
+
+
+                <!-- Start Page content -->
+                <div class="content">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <!-- Personal-Information -->
+                                <div class="card-box">
+                                    <h4 class="header-title mt-0 m-b-20">{{userInfo.username}}</h4>
+                                    <div class="panel-body">
+                                        <p class="text-muted font-13 pre">{{userInfo.description}}</p>
+
+                                        <hr/>
+
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name: </strong> <span class="m-l-15">{{userInfo.fullName}}</span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile: </strong><span class="m-l-15">{{userInfo.phone}}</span></p>
+
+                                            <p class="text-muted font-13"><strong>Email: </strong> <span class="m-l-15">{{userInfo.email}}</span></p>
+
+                                            <p class="text-muted font-13"><strong>Location: </strong> <span class="m-l-15">{{userInfo.location}}</span></p>
+
+                                        </div>
+
+                                        <ul class="social-links list-inline m-t-20 m-b-0">
+                                            <li class="list-inline-item">
+                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Instagram"><i class="fa fa-instagram"></i></a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
+                                            </li>
+                                        </ul>
+
+                                        {{#editable}}
+                                        <a href="/editprofile" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Edit your profile</a>
+                                        {{/editable}}
+                                    </div>
+                                </div>
+                                <!-- Personal-Information -->
+                            </div>
+
+
+                            <div class="col-md-8">
+
+                                <div class="card-box">
+                                    <h4 class="header-title mt-0 mb-3">Latest Activity</h4>
+                                    <div class="">
+                                        <div class="">
+                                            <h5 class="text-custom m-b-5">Lead designer / Developer</h5>
+                                            <p class="m-b-0">websitename.com</p>
+                                            <p><b>2010-2015</b></p>
+
+                                            <p class="text-muted font-13 m-b-0">Lorem Ipsum is simply dummy text
+                                                of the printing and typesetting industry. Lorem Ipsum has
+                                                been the industry's standard dummy text ever since the
+                                                1500s, when an unknown printer took a galley of type and
+                                                scrambled it to make a type specimen book.
+                                            </p>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="">
+                                            <h5 class="text-custom m-b-5">Senior Graphic Designer</h5>
+                                            <p class="m-b-0">coderthemes.com</p>
+                                            <p><b>2007-2009</b></p>
+
+                                            <p class="text-muted font-13">Lorem Ipsum is simply dummy text
+                                                of the printing and typesetting industry. Lorem Ipsum has
+                                                been the industry's standard dummy text ever since the
+                                                1500s, when an unknown printer took a galley of type and
+                                                scrambled it to make a type specimen book.
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end col -->
+
+                        </div>
+                        <!-- end row -->
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer text-right">
+                    {{>footer}}
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <!-- modals -->
+        {{>modal_login}}
+
+        <!-- jQuery  -->
+        <script src="{{{cdn}}}/dist/js/vendor.min.js"></script>
+
+        <script src="{{{cdn}}}/dist/pages/home/js/home.min.js"></script>
+
+        <!-- App js (Idk what this is for lol) -->
+        <script src="{{{cdn}}}/dist/js/app.min.js"></script>
+
+        <!-- global customs -->
+        <script src="{{{cdn}}}/dist/js/global-custom.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // $('#datatable').dataTable();
+
+                $('.clickable').on('click', function(event){
+                    window.location.href = $(this).attr('href');;
+                });
+            });
+        </script>
+
+    </body>
+</html>

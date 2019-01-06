@@ -37,5 +37,19 @@ module.exports = {
         reject(err)
       })
     })
+  },
+
+  update: (req, body) => {
+    return new Promise((resolve, reject) => {
+      turbo.updateEntity(resource, req.vertexSession.user.id, {
+        [body.name]: body.value
+      })
+      .then(data => {
+        resolve(data)
+      })
+      .catch(err => {
+        reject(err)
+      })
+    })
   }
 }

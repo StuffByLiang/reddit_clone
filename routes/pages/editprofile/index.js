@@ -4,17 +4,23 @@ const helpers = require('../../helpers');
 const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
 
 module.exports = (req, res) => {
-	
+
+	if(req.vertexSession == null || req.vertexSession.user == null) {
+		//redirect to home if not logged in
+		res.redirect('/');
+		return;
+	}
+
 	config = {
 		cdn: CDN,
-		pageTitle: 'All Rooms'
+		pageTitle: 'Edit your profile'
 	};
 
-  turbo.fetch('room', null)
-    .then(rooms => {
-      config.allRooms = rooms;
+  turbo.fetchOne('user', req.vertexSession.user.id)
+    .then(user => {
+      config.userInfo = user;
 
-      helpers.displayPage(req, res, 'rooms', config);
+      helpers.displayPage(req, res, 'editprofile', config);
     })
     .catch(err => {
       res.json({

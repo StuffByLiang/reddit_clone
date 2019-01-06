@@ -6,23 +6,6 @@ const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
 module.exports = (req, res) => {
 	const slug = req.params.slug;
 
-  const topics = [
-		{
-			room: 'Sports',
-			topic: 'Soccer sucks',
-			user: 'LoreOfLies',
-			numReplies: 4,
-			date: 'March 20, 2018'
-		},
-		{
-			room: 'Sports',
-			topic: 'I\'m gay',
-			user: 'LoreOfLies',
-			numReplies: 4,
-			date: 'March 20, 2018'
-		}
-	]
-
   let config = {
     cdn: CDN,
     room: slug,

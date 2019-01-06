@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Highdmin - Responsive Bootstrap 4 Admin Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{{cdn}}}/images/favicon.ico">
+
+        <!-- X editable -->
+        <link href="{{{cdn}}}/plugins/bootstrap-xeditable/css/bootstrap-editable.css" rel="stylesheet" />
+
+        <!-- App css -->
+        <link href="{{{cdn}}}/dist/css/vendor.min.css" rel="stylesheet" type="text/css" />
+
+				<style>
+
+        .editable-textarea .editable-container,
+        .editable-textarea .editableform,
+        .editable-textarea .control-group.form-group,
+        .editable-textarea .editable-container div,
+        .editable-textarea .editable-input textarea.form-control {
+          width: 100% !important;
+        }
+
+        </style>
+
+        <script src="{{{cdn}}}/js/modernizr.min.js"></script>
+    </head>
+
+
+    <body>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- ========== Left Sidebar Start ========== -->
+            {{>left_navbar}}
+            <!-- Left Sidebar End -->
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+
+                <!-- Top Bar Start -->
+                {{>topbar}}
+                <!-- Top Bar End -->
+
+
+
+                <!-- Start Page content -->
+                <div class="content">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <!-- Personal-Information -->
+                                <div class="card-box">
+                                    <h4 class="header-title mt-0 m-b-20">{{userInfo.username}}</h4>
+                                    <div class="panel-body">
+                                        <p class="text-muted font-13 editable-textarea">
+                                            <a href="#" id="inline-description" name="description" data-type="textarea" data-pk="1" data-placeholder="Enter your profile description" data-title="Enter your profile description" class="editable editable-pre-wrapped editable-click" style="">{{userInfo.description}}</a>
+                                        </p>
+
+                                        <hr/>
+
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15"><a href="#" id="inline-fullName" name="fullName" onChange="alert('HELLO', 'HELLO')" data-type="text" data-pk="1" data-title="Enter your Full Name" data-placeholder="Enter your Full Name">{{userInfo.fullName}}</a></span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="m-l-15"><a href="#" id="inline-phone" name="phone" data-type="text" data-pk="1" data-title="Enter your phone number" data-placeholder="Enter your phone number">{{userInfo.phone}}</a></span></p>
+
+                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15"><a href="#" id="inline-email" name="email" data-type="text" data-pk="1" data-title="Enter your email" data-placeholder="Enter your email">{{userInfo.email}}</a></span></p>
+
+                                            <p class="text-muted font-13"><strong>Location :</strong> <span class="m-l-15"><a href="#" id="inline-location" name="location" data-type="text" data-pk="1" data-title="Enter your location" data-placeholder="Enter your location">{{userInfo.location}}</a></span></p>
+
+                                        </div>
+
+                                        <ul class="social-links list-inline m-t-20 m-b-0">
+                                            <li class="list-inline-item">
+                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Instagram"><i class="fa fa-instagram"></i></a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
+                                            </li>
+                                        </ul>
+
+                                        <p class="text-muted">All changes are saved automatically</p>
+                                    </div>
+                                </div>
+                                <!-- Personal-Information -->
+                            </div>
+
+
+                            <div class="col-md-8">
+
+                                <div class="card-box">
+                                    <h4 class="header-title mt-0 mb-3">Latest Activity</h4>
+                                    <div class="">
+                                        <div class="">
+                                            <h5 class="text-custom m-b-5">Lead designer / Developer</h5>
+                                            <p class="m-b-0">websitename.com</p>
+                                            <p><b>2010-2015</b></p>
+
+                                            <p class="text-muted font-13 m-b-0">Lorem Ipsum is simply dummy text
+                                                of the printing and typesetting industry. Lorem Ipsum has
+                                                been the industry's standard dummy text ever since the
+                                                1500s, when an unknown printer took a galley of type and
+                                                scrambled it to make a type specimen book.
+                                            </p>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="">
+                                            <h5 class="text-custom m-b-5">Senior Graphic Designer</h5>
+                                            <p class="m-b-0">coderthemes.com</p>
+                                            <p><b>2007-2009</b></p>
+
+                                            <p class="text-muted font-13">Lorem Ipsum is simply dummy text
+                                                of the printing and typesetting industry. Lorem Ipsum has
+                                                been the industry's standard dummy text ever since the
+                                                1500s, when an unknown printer took a galley of type and
+                                                scrambled it to make a type specimen book.
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end col -->
+
+                        </div>
+                        <!-- end row -->
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer text-right">
+                    {{>footer}}
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <!-- modals -->
+        {{>modal_login}}
+
+        <!-- jQuery  -->
+        <script src="{{{cdn}}}/dist/js/vendor.min.js"></script>
+
+        <!-- Xeditable -->
+        <script src="{{{cdn}}}/plugins/moment/moment.js" type="text/javascript"></script>
+        <script src="{{{cdn}}}/plugins/bootstrap-xeditable/js/bootstrap-editable.min.js" type="text/javascript"></script>
+        <script src="{{{cdn}}}/pages/jquery.xeditable.init.js" type="text/javascript"></script>
+
+        <!-- App js (Idk what this is for lol) -->
+        <script src="{{{cdn}}}/dist/js/app.min.js"></script>
+
+        <!-- global customs -->
+        <script src="{{{cdn}}}/dist/js/global-custom.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+              //modify buttons style
+              $.fn.editableform.buttons =
+                  '<button type="submit" class="btn btn-primary editable-submit btn-sm waves-effect waves-light"><i class="mdi mdi-check"></i></button>' +
+                  '<button type="button" class="btn btn-light editable-cancel btn-sm waves-effect"><i class="mdi mdi-close"></i></button>';
+
+              //Inline editables
+              $('#inline-fullName').editable({
+                  type: 'text',
+                  pk: 1,
+                  name: 'fullName',
+                  title: 'Enter your full name',
+                  mode: 'inline',
+                  inputclass: 'form-control-sm'
+              });
+
+              $('#inline-phone').editable({
+                  type: 'text',
+                  pk: 1,
+                  name: 'phone',
+                  title: 'Enter your phone number',
+                  mode: 'inline',
+                  inputclass: 'form-control-sm'
+              });
+
+              $('#inline-email').editable({
+                  type: 'text',
+                  pk: 1,
+                  name: 'email',
+                  title: 'Enter your email',
+                  mode: 'inline',
+                  inputclass: 'form-control-sm'
+              });
+
+              $('#inline-location').editable({
+                  type: 'text',
+                  pk: 1,
+                  name: 'location',
+                  title: 'Enter your location',
+                  mode: 'inline',
+                  inputclass: 'form-control-sm'
+              });
+
+
+              $('#inline-description').editable({
+                  showbuttons: 'bottom',
+                  mode: 'inline',
+                  inputclass: 'form-control-sm'
+              });
+
+
+              $('.editable').on('save', function(e, params) {
+
+                let userData = {
+                  name: $(this).attr('name'),
+                  value: params.newValue
+                }
+
+                console.log(userData)
+
+                $.ajax({
+                  url: '/api/user/update/',
+                  type: 'POST',
+                  data: userData,
+                  success: function(data, textStatus, jqXHR) {
+                    if(data.confirmation != 'success') {
+                      // console.log('error', data.data);
+                    } else {
+                      // console.log('success', data.data);
+
+                      // redirect(window.location.pathname, 1000)
+                    }
+
+                  },
+                  error: function(jqHXR, textStatus, err) {
+                    alert('error', err);
+                  }
+                })
+              });
+
+
+            });
+        </script>
+
+    </body>
+</html>

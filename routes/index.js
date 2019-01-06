@@ -60,4 +60,7 @@ router.get('/addroom', require('./pages/addroom'))
 
 router.get('/room/:slug/topic/:topicSlug', require('./pages/room/topic.js'))
 
+router.get('/user/:user', require('./pages/user'))
+router.get('/editprofile', require('./pages/editprofile'))
+
 module.exports = router
