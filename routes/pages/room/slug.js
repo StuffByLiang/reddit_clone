@@ -9,8 +9,7 @@ module.exports = (req, res) => {
   let config = {
     cdn: CDN,
     room: slug,
-    pageTitle: undefined,
-    topics: topics
+    pageTitle: undefined
   }
 
   if(req.vertexSession == null || req.vertexSession.user == null) {
