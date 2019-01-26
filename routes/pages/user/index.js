@@ -20,12 +20,13 @@ module.exports = (req, res) => {
       config.pageTitle = 'User > ' + users[0].username;
 
       // check if this profile is the current logged in user
-      if(req.vertexSession.user.id === users[0].id) {
-        // the logged in user is the same as this profile!
-        config.editable = true;
-      } else {
-        // logged in user is not the same!
-      }
+      if(req.vertexSession.user!=null)
+        if(req.vertexSession.user.id === users[0].id) {
+          // the logged in user is the same as this profile!
+          config.editable = true;
+        } else {
+          // logged in user is not the same!
+        }
 
       helpers.displayPage(req, res, 'user', config);
     })

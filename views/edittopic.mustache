@@ -62,40 +62,28 @@
                       <div class="row">
                           <div class="col-12">
                               <div class="card-box">
-                                <h4 class="m-t-0 header-title">Create a topic</h4>
+                                <h4 class="m-t-0 header-title">Editing {{{topic.title}}}</h4>
                                   <p class="text-muted m-b-30 font-14">
-                                      What would you like to talk about?
+                                      What would you like to edit?
                                   </p>
 
                                   <div class="row">
                                       <div class="col-12">
                                           <div class="p-20">
-                                              <form id="addtopic-form" class="form-horizontal" role="form">
-                                                  <div class="form-group row">
-                                                      <label class="col-2 col-form-label">Topic Title</label>
-                                                      <div class="col-10">
-                                                          <input id="topic-title" type="text" class="form-control" placeholder="Topic Title">
-                                                      </div>
-                                                  </div>
+                                              <form id="edittopic-form" class="form-horizontal" role="form">
                                                   <div class="form-group row">
                                                       <label class="col-2 col-form-label" for="example-email">Topic Description</label>
                                                       <div class="col-10">
-                                                          <textarea type="text" id="topic-description" class="form-control" placeholder="Enter the Topic Description" rows=5></textarea>
+                                                          <textarea type="text" id="topic-description" class="form-control" placeholder="Enter the Topic Description" rows=5>{{{topic.description}}}</textarea>
                                                       </div>
                                                   </div>
-                                                  <!-- <div class="form-group row">
-                                                      <label class="col-2 col-form-label">Password</label>
-                                                      <div class="col-10">
-                                                          <input type="password" class="form-control" value="password">
-                                                      </div>
-                                                  </div> -->
                                                   <div class="form-group row">
                                                       <div class="col-10 offset-2">
-                                                          <button type="submit" class="btn btn-info waves-effect waves-light">Create</button>
+                                                          <button type="submit" class="btn btn-info waves-effect waves-light">Submit Edit</button>
                                                       </div>
                                                   </div>
 
-                                                  <input type="hidden" id="topic-room" value="{{room}}" />
+                                                  <input type="hidden" id="topic-room" value="{{topicSlug}}" />
                                               </form>
                                           </div>
                                       </div>
@@ -137,43 +125,34 @@
 
         <script type="text/javascript">
         (function(){
-          $( "#addtopic-form" ).submit(function( event ) {
+          $( "#edittopic-form" ).submit(function( event ) {
             event.preventDefault();
 
             tinyMCE.triggerSave();
 
             // grab form values
             var topicData = {
-              title: $( "#topic-title" ).val(),
               description: $( "#topic-description" ).val(),
-              room: $( "#topic-room" ).val()
-            }
-
-            if (topicData.title.length == 0) {
-              alert('error', "Please enter the topic name");
-              return;
+              topicSlug: $( "#topic-room" ).val()
             }
 
             if (topicData.description.length == 0) {
-              alert('error', "Please enter the topic description");
+              alert('error', "Uhhh k");
               return;
             }
-
-            $( "#topic-title" ).val('')
-            $( "#topic-description" ).val('')
 
             alert('Loading', '');
 
             //now send ajax request
             $.ajax({
-              url: '/api/topic',
+              url: '/api/topic/update',
               type: 'POST',
               data: topicData,
               success: function(data, textStatus, jqXHR) {
                 if(data.confirmation != 'success') {
                   alert('error', data.data);
                 } else {
-                  alert('success', `Topic: '${topicData.title}' was succesfully created.`);
+                  alert('success', `Topic was succesfully edited.`);
                   redirect('/posts', 1000)
                 }
 

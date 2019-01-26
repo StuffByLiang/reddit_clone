@@ -10,6 +10,11 @@ a.no-color-change {
   white-space: pre-wrap;
 }
 
+.clickable .description {
+  max-height: 350px;
+  overflow: hidden;
+}
+
 .sk-rotating-plane, .sk-double-bounce .sk-child, .sk-wave .sk-rect, .sk-wandering-cubes .sk-cube, .sk-spinner-pulse, .sk-chasing-dots .sk-child, .sk-three-bounce .sk-child, .sk-circle .sk-child:before, .sk-cube-grid .sk-cube, .sk-fading-circle .sk-circle:before, .sk-folding-cube .sk-cube:before {
     background-color: #02c0ce;
 }
