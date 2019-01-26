@@ -1,5 +1,5 @@
 /**
- * Theme: Highdmin - Responsive Bootstrap 4 Admin Dashboard
+ * Theme: Liang's Reddit Clone | {{pageTitle}}
  * Author: Coderthemes
  * Module/App: Main Js
  */

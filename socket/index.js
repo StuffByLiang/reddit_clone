@@ -21,7 +21,7 @@ module.exports = function (server) {
         })
           .then(users => {
             socket.username = users[0].username;
-            console.log(`user ${users[0].username} connected`);
+            console.log(`${users[0].username} connected`);
 
             // check if connected already
             if(!currentUsers.hasOwnProperty(users[0].username)) {
@@ -55,8 +55,8 @@ module.exports = function (server) {
             // make them join a socket room with the name of their username
             socket.join(socket.username);
 
-            console.log(currentUsers)
-            console.log('connect ' + io.engine.clientsCount)
+            // console.log(currentUsers)
+            // console.log('connect ' + io.engine.clientsCount)
 
           })
           .catch(data => {
@@ -80,11 +80,11 @@ module.exports = function (server) {
 
         }
 
-        console.log(currentUsers)
+        // console.log(currentUsers)
 
         console.log(`${socket.username} disconnected`);
       }
-      console.log('disconnect ' + io.engine.clientsCount)
+      // console.log('disconnect ' + io.engine.clientsCount)
     });
 
     socket.on('message', function(data){
