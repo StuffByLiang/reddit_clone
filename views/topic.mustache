@@ -51,7 +51,7 @@
                                       <div class="card-box">
                                           <p class="text-muted mb-0">Posted by <a class="underline no-color-change" href="/user/{{topic.user.username}}">{{topic.user.username}}</a> | {{topic.timestamp}}</p>
                                           <h4 class="">{{topic.title}}</h4>
-                                          <p class="pre">{{topic.description}}</p>
+                                          <p class="">{{{topic.description}}}</p>
 
                                           <p class="text-muted tickets-list"><i class="mdi mdi-comment"></i> {{topic.numReplies}}</p>
 
@@ -142,6 +142,10 @@
                                         <a href="/room/{{roomDetails.slug}}/" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Visit Room Homepage</a>
                                         <a href="/room/{{roomDetails.slug}}/addtopic/" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Add a new topic</a>
                                         <a href="javascript:subscribe()" class="btn btn-block btn-sm btn-primary waves-effect waves-light">Subscribe</a>
+                                        <hr>
+                                        {{#canEdit}}
+                                        <a href="/room/{{roomDetails.slug}}/topic/{{topicSlug}}/edit/" class="btn btn-block btn-sm btn-warning waves-effect waves-light">Edit This Topic</a>
+                                        {{/canEdit}}
                                     </div>
                                 </div><!-- end col -->
                             </div>

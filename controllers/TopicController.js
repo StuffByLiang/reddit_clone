@@ -92,5 +92,24 @@ module.exports = {
             })
         }
     })
+  },
+  update: (req, body) => {
+    return new Promise((resolve, reject) => {
+
+      // fetch topic using topicSlug
+      turbo.fetch('topic', {slug: body.topicSlug })
+        .then(topics => {
+          // get the topicId from the topicSlug
+          return turbo.updateEntity(resource, topics[0].id, {
+            description: body.description
+          });
+        })
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
   }
 }

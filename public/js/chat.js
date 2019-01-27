@@ -132,7 +132,7 @@ $(document).ready(function () {
 
 function initiateUser(name) {
   $('#chatbox__users').append(`<div id="${name}" class="chatbox__user__container d-flex">
-    <img src="/images/users/avatar-1.jpg" alt="user" class="rounded-circle">
+    <img src="{{{cdn}}}/images/users/avatar-1.jpg" alt="user" class="rounded-circle">
     <div class="justify-content-center">
       <p class="header-title">${name}</p>
       <p id="${name}-lastmessage" class="text-muted">Text</p>

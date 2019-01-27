@@ -50,6 +50,11 @@ module.exports = function(req, res, config, slug, topicSlug) {
         config['topic'] = topics[0];
         config['pageTitle'] = topics[0].room.name + " > " + topics[0].title;
 
+        // check if the current logged in user is the writer
+        if(req.vertexSession.user.id == topics[0].user.id) {
+          config['canEdit'] = true; // set canEdit to true
+        }
+
         // convert date time into FORMAT ___ units ago
         config.topic.timestamp = ta.ago(config.topic.timestamp);
 

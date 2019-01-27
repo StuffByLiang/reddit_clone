@@ -188,4 +188,32 @@ router.post('/user/update', (req, res) => {
 			})
 		}
 })
+
+router.post('/topic/update', (req, res) => {
+	const controller = controllers['topic'];
+
+	// check if user is logged in
+	if(req.vertexSession == null || req.vertexSession.user == null) {
+		// not logged in
+		res.json({
+			confirmation: 'fail',
+			data: 'not logged in'
+		})
+	} else {
+		// user is logged in, continue
+		controller.update(req, req.body)
+			.then(data => {
+				res.json({
+					confirmation: 'success',
+					data: data
+				})
+			})
+			.catch(err => {
+				res.json({
+					confirmation: 'fail',
+					data: err.message
+				})
+			})
+		}
+})
 module.exports = router
