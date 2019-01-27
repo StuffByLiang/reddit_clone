@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Liang's Reddit Clone | {{pageTitle}}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta content="{{pageDescription}}" name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{{cdn}}}/images/favicon.ico">
+
+        <!-- DataTables -->
+        <link href="{{{cdn}}}/dist/pages/home/css/home.min.css" rel="stylesheet" type="text/css"/>
+
+        <!-- App css -->
+        <link href="{{{cdn}}}/dist/css/vendor.min.css" rel="stylesheet" type="text/css" />
+
+        <script src="{{{cdn}}}/js/modernizr.min.js"></script>
+
+        <style>
+
+        .task-description {
+          transition: .3s ease-in-out;
+        }
+
+        </style>
+
+    </head>
+
+
+    <body>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- ========== Left Sidebar Start ========== -->
+            {{>left_navbar}}
+            <!-- Left Sidebar End -->
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+
+                <!-- Top Bar Start -->
+                {{>topbar}}
+                <!-- Top Bar End -->
+
+                <div class="content">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="card-box">
+                                    <h4 class="text-dark header-title m-t-0">Your tasks</h4>
+                                    <p class="text-muted m-b-30 font-13">
+                                        This is your task list!
+                                    </p>
+
+                                    <ul class="sortable-list taskList list-unstyled ui-sortable" id="upcoming">
+                                        {{#tasks}}
+                                        <!-- first level task -->
+                                        <li class="first-level-task task-warning ui-sortable-handle" id="{{id}}">
+                                          <div class="d-flex">
+                                            <div class="m-0 checkbox checkbox-custom checkbox-circle checkbox-single">
+                                                <input class="task-checkbox" id="{{id}}-checkbox" data-id="{{id}}" type="checkbox" {{#checked}}checked=""{{/checked}}><!--add attribute checked="" to make it checked-->
+                                                <label class="mb-0" for="{{id}}-checkbox1"></label>
+                                            </div>
+                                            <div class="task-description ml-2" {{#checked}}style="text-decoration: line-through;"{{/checked}}>
+                                                <h3 style="line-height: 18px" class="header-title mb-0">{{title}}</h3>
+                                                <p class="mb-0">{{description}}</p>
+                                            </div>
+                                          </div>
+
+                                          <!-- options -->
+                                          <div class="">
+                                            <a class="text-primary subtask" data-id="{{id}}" href="javascript:void(0)">Add a sub-task</a>
+                                          </div>
+
+                                          <div class="subtask-box">
+                                          </div>
+                                        </li>
+
+                                            {{#subtasks}}
+                                            <!-- second level task -->
+                                            <li class="ml-5 task-warning ui-sortable-handle d-flex">
+                                              <div class="m-0 checkbox checkbox-custom checkbox-circle checkbox-single">
+                                                  <input class="task-checkbox" data-id="{{id}}" id="{{id}}-checkbox" type="checkbox" {{#checked}}checked=""{{/checked}}><!--add attribute checked="" to make it checked-->
+                                                  <label class="mb-0" for="{{id}}-checkbox"></label>
+                                              </div>
+                                                <p class="task-description ml-2 mb-0" {{#checked}}style="text-decoration: line-through;"{{/checked}}>{{description}}</p>
+                                            </li>
+                                            {{/subtasks}}
+                                        {{/tasks}}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card-box">
+                                    <h4 class="text-dark header-title m-t-0">Add A Task</h4>
+                                    <!-- <p class="text-muted font-13">
+                                        Add a task!
+                                    </p> -->
+                                    <form id="addtask-form" role="form">
+                                        <div class="form-group">
+                                            <label for="task-title">Task Title</label>
+                                            <input type="text" class="form-control" id="task-title" aria-describedby="text-title" placeholder="Task title">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="task-description">Task description</label>
+                                            <textarea class="form-control" id="task-description" aria-describedby="text-description" placeholder="Task Description" rows="3"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block waves-effect waves-light"><i class="mdi mdi-plus-circle"></i> Add New Task </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- end row -->
+
+
+                    </div> <!-- container -->
+
+                </div>
+
+                <footer class="footer text-right">
+                    {{>footer}}
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <!-- modals -->
+        {{>modal_login}}
+
+        <!-- jQuery  -->
+        <script src="{{{cdn}}}/dist/js/vendor.min.js"></script>
+
+        <script src="{{{cdn}}}/dist/pages/home/js/home.min.js"></script>
+
+        <!-- App js (Idk what this is for lol) -->
+        <script src="{{{cdn}}}/dist/js/app.min.js"></script>
+
+        <!-- global customs -->
+        <script src="{{{cdn}}}/dist/js/global-custom.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // $('#datatable').dataTable();
+
+                $('.subtask').on('click', function(event){
+                  console.log($(this).closest('.first-level-task'))
+                  $('.subtask-box').empty(); // clear all other reply comment boxes
+
+                    $(this).parent().next('.subtask-box').html(`
+                      <form id="subtask-form" role="form">
+                          <div class="form-group">
+                              <label for="subtask-description">Subtask description</label>
+                              <textarea class="form-control" id="subtask-description" aria-describedby="text-description" placeholder="Task Description" rows="3"></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-plus-circle"></i> Add New Subtask </button>
+                          <a href="javascript:closeSubtask()" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-plus-cross"></i> Close </a>
+
+                          <input type="hidden" id="task-id" value="${$(this).attr("data-id")}" />
+                      </form>`);
+
+                    // for replys to comments
+                    $( "#subtask-form" ).submit(function( event ) {
+                      event.preventDefault();
+
+                      // grab form values
+                      var subtaskData = {
+                        description: $( "#subtask-description" ).val(),
+                        task: $( "#task-id" ).val()
+                      }
+
+                      if (subtaskData.description.length == 0) {
+                        alert('error', "Please enter a description!");
+                        return;
+                      }
+
+                      $('.subtask-box').empty(); // clear all other subtask boxes
+                      alert('Loading', "");
+
+                      //now send ajax request
+                      $.ajax({
+                        url: '/api/task/second-level',
+                        type: 'POST',
+                        data: subtaskData,
+                        success: function(data, textStatus, jqXHR) {
+                          if(data.confirmation != 'success') {
+                            alert('error', data.data);
+                          } else {
+                            alert('success', `Reply: '${subtaskData.description}' was succesfully posted.`);
+
+                            //redirect(window.location.pathname, 1000)
+                          }
+
+                        },
+                        error: function(jqHXR, textStatus, err) {
+                          alert('error', err);
+                        }
+                      })
+                    });
+                });
+
+                $( "#addtask-form" ).submit(function( event ) {
+                  event.preventDefault();
+
+                  // grab form values
+                  var taskData = {
+                    title: $( "#task-title" ).val(),
+                    description: $( "#task-description" ).val()
+                  }
+
+                  if (taskData.title.length == 0) {
+                    alert('error', "Please enter the task title");
+                    return;
+                  }
+
+                  if (taskData.description.length == 0) {
+                    alert('error', "Please enter the task description");
+                    return;
+                  }
+
+                  alert('Loading', '');
+
+                  //now send ajax request
+                  $.ajax({
+                    url: '/api/task',
+                    type: 'POST',
+                    data: taskData,
+                    success: function(data, textStatus, jqXHR) {
+                      if(data.confirmation != 'success') {
+                        alert('error', data.data);
+                      } else {
+                        alert('success', `Task: '${taskData.title}' was succesfully created.`);
+                      }
+
+                    },
+                    error: function(jqHXR, textStatus, err) {
+                      alert('error', err);
+                    }
+                  })
+
+                });
+
+                // do stuff when checkbox is checked
+                $('.task-checkbox').change(function() {
+                  var taskID = $(this).attr('data-id');
+
+                  if( $(this).is(':checked') ) {
+                    // checkbox is checked
+                    $(this).parent().next().css("text-decoration", "line-through");
+                    //now send ajax request
+                    updateCheck(taskID, true);
+
+                  } else {
+                    // checkbox is not checked
+                    $(this).parent().next().css("text-decoration", "none");
+                    //now send ajax request
+                    updateCheck(taskID, false);
+                  }
+                })
+            });
+
+            function closeSubtask() {
+              $('.subtask-box').empty(); // clear all other subtask boxes
+            }
+
+            function updateCheck(id, checked) {
+              $.ajax({
+                url: '/api/task/check',
+                type: 'POST',
+                data: {
+                  id: id,
+                  checked: checked
+                },
+                success: function(data, textStatus, jqXHR) {
+                  if(data.confirmation != 'success') {
+                    alert('error', data.data);
+                  } else {
+                    // alert('success', `Task: '${taskData.title}' was succesfully created.`);
+                    console.log(data.data)
+                  }
+
+                },
+                error: function(jqHXR, textStatus, err) {
+                  alert('error', err);
+                }
+              })
+            }
+
+        </script>
+
+        <!-- check logged in (for chat) -->
+        {{#user}}
+          {{>chat}}
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+          <script src="{{{cdn}}}/js/chat.js"></script>
+        {{/user}}
+
+    </body>
+</html>
