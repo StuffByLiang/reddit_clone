@@ -113,5 +113,38 @@ module.exports = {
             })
         }
     })
+  },
+  delete: (req, body) => {
+    return new Promise((resolve, reject) => {
+      // if logged in, do this stuff, otherwise reject.
+      if(req.vertexSession == null || req.vertexSession.user == null) {
+          reject({message: "Not logged in. Cannot check/uncheck."})
+        } else {
+          // logged in!
+
+          //get subtasks
+          turbo.fetch('task', {
+            task: body['task']
+          })
+            .then(tasks => {
+              if(tasks.length > 0) {
+                // if subtasks are found, delete all subtasks.
+                for(task of tasks) {
+                  turbo.removeEntity('task', task.id);
+                }
+
+              }
+
+              //finally delete the task!
+              return turbo.removeEntity('task', body['task']);
+            })
+            .then(data => {
+              resolve(data);
+            })
+            .catch(err => {
+              reject(err)
+            })
+        }
+    })
   }
 }

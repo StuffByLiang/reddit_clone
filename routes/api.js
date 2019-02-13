@@ -161,6 +161,24 @@ router.post('/task/check', (req, res) => {
 		})
 })
 
+router.post('/task/delete', (req, res) => {
+	const controller = controllers['task'];
+
+	controller.delete(req, req.body)
+		.then(data => {
+			res.json({
+				confirmation: 'success',
+				data: data
+			})
+		})
+		.catch(err => {
+			res.json({
+				confirmation: 'fail',
+				data: err.message
+			})
+		})
+})
+
 router.post('/user/update', (req, res) => {
 	const controller = controllers['user'];
 

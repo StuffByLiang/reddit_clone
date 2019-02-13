@@ -62,6 +62,7 @@
 
                                     <ul class="sortable-list taskList list-unstyled ui-sortable" id="upcoming">
                                         {{#tasks}}
+                                        <div id="{{id}}-container" class="task mt-3">
                                         <!-- first level task -->
                                         <li class="first-level-task task-warning ui-sortable-handle" id="{{id}}">
                                           <div class="d-flex">
@@ -78,6 +79,8 @@
                                           <!-- options -->
                                           <div class="">
                                             <a class="text-primary subtask" data-id="{{id}}" href="javascript:void(0)">Add a sub-task</a>
+
+                                            <a class="float-right delete text-custom" data-id="{{id}}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
                                           </div>
 
                                           <div class="subtask-box">
@@ -86,14 +89,16 @@
 
                                             {{#subtasks}}
                                             <!-- second level task -->
-                                            <li class="ml-5 task-warning ui-sortable-handle d-flex">
+                                            <li class="task ml-5 task-warning ui-sortable-handle d-flex">
                                               <div class="m-0 checkbox checkbox-custom checkbox-circle checkbox-single">
                                                   <input class="task-checkbox" data-id="{{id}}" id="{{id}}-checkbox" type="checkbox" {{#checked}}checked=""{{/checked}}><!--add attribute checked="" to make it checked-->
                                                   <label class="mb-0" for="{{id}}-checkbox"></label>
                                               </div>
                                                 <p class="task-description ml-2 mb-0" {{#checked}}style="text-decoration: line-through;"{{/checked}}>{{description}}</p>
+                                                <a class="ml-auto delete text-custom" data-id="{{id}}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
                                             </li>
                                             {{/subtasks}}
+                                          </div>
                                         {{/tasks}}
                                     </ul>
                                 </div>
@@ -149,6 +154,9 @@
 
         <script src="{{{cdn}}}/dist/pages/home/js/home.min.js"></script>
 
+        <!-- mustache -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+
         <!-- App js (Idk what this is for lol) -->
         <script src="{{{cdn}}}/dist/js/app.min.js"></script>
 
@@ -159,61 +167,8 @@
             $(document).ready(function () {
                 // $('#datatable').dataTable();
 
-                $('.subtask').on('click', function(event){
-                  console.log($(this).closest('.first-level-task'))
-                  $('.subtask-box').empty(); // clear all other reply comment boxes
-
-                    $(this).parent().next('.subtask-box').html(`
-                      <form id="subtask-form" role="form">
-                          <div class="form-group">
-                              <label for="subtask-description">Subtask description</label>
-                              <textarea class="form-control" id="subtask-description" aria-describedby="text-description" placeholder="Task Description" rows="3"></textarea>
-                          </div>
-                          <button type="submit" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-plus-circle"></i> Add New Subtask </button>
-                          <a href="javascript:closeSubtask()" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-plus-cross"></i> Close </a>
-
-                          <input type="hidden" id="task-id" value="${$(this).attr("data-id")}" />
-                      </form>`);
-
-                    // for replys to comments
-                    $( "#subtask-form" ).submit(function( event ) {
-                      event.preventDefault();
-
-                      // grab form values
-                      var subtaskData = {
-                        description: $( "#subtask-description" ).val(),
-                        task: $( "#task-id" ).val()
-                      }
-
-                      if (subtaskData.description.length == 0) {
-                        alert('error', "Please enter a description!");
-                        return;
-                      }
-
-                      $('.subtask-box').empty(); // clear all other subtask boxes
-                      alert('Loading', "");
-
-                      //now send ajax request
-                      $.ajax({
-                        url: '/api/task/second-level',
-                        type: 'POST',
-                        data: subtaskData,
-                        success: function(data, textStatus, jqXHR) {
-                          if(data.confirmation != 'success') {
-                            alert('error', data.data);
-                          } else {
-                            alert('success', `Reply: '${subtaskData.description}' was succesfully posted.`);
-
-                            //redirect(window.location.pathname, 1000)
-                          }
-
-                        },
-                        error: function(jqHXR, textStatus, err) {
-                          alert('error', err);
-                        }
-                      })
-                    });
-                });
+                updateSubtaskForm();
+                updateTasks();
 
                 $( "#addtask-form" ).submit(function( event ) {
                   event.preventDefault();
@@ -234,8 +189,6 @@
                     return;
                   }
 
-                  alert('Loading', '');
-
                   //now send ajax request
                   $.ajax({
                     url: '/api/task',
@@ -245,7 +198,34 @@
                       if(data.confirmation != 'success') {
                         alert('error', data.data);
                       } else {
-                        alert('success', `Task: '${taskData.title}' was succesfully created.`);
+                        data=data.data;
+                        $(".taskList").append(`<div id="${data.id}-container"  class="task mt-3">
+                        <!-- first level task -->
+                        <li class="first-level-task task-warning ui-sortable-handle" id="${data.id}">
+                          <div class="d-flex">
+                            <div class="m-0 checkbox checkbox-custom checkbox-circle checkbox-single">
+                                <input class="task-checkbox" id="${data.id}-checkbox" data-id="${data.id}" type="checkbox"><!--add attribute checked="" to make it checked-->
+                                <label class="mb-0" for="${data.id}-checkbox1"></label>
+                            </div>
+                            <div class="task-description ml-2">
+                                <h3 style="line-height: 18px" class="header-title mb-0">${data.title}</h3>
+                                <p class="mb-0">${data.description}</p>
+                            </div>
+                          </div>
+
+                          <!-- options -->
+                          <div class="">
+                            <a class="text-primary subtask" data-id="${data.id}" href="javascript:void(0)">Add a sub-task</a>
+
+                            <a class="float-right delete text-custom" data-id="${data.id}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
+                          </div>
+
+                          <div class="subtask-box">
+                          </div>
+                        </li>
+                      </div>`);
+                      updateSubtaskForm();
+                      updateTasks();
                       }
 
                     },
@@ -256,23 +236,6 @@
 
                 });
 
-                // do stuff when checkbox is checked
-                $('.task-checkbox').change(function() {
-                  var taskID = $(this).attr('data-id');
-
-                  if( $(this).is(':checked') ) {
-                    // checkbox is checked
-                    $(this).parent().next().css("text-decoration", "line-through");
-                    //now send ajax request
-                    updateCheck(taskID, true);
-
-                  } else {
-                    // checkbox is not checked
-                    $(this).parent().next().css("text-decoration", "none");
-                    //now send ajax request
-                    updateCheck(taskID, false);
-                  }
-                })
             });
 
             function closeSubtask() {
@@ -298,6 +261,115 @@
                 },
                 error: function(jqHXR, textStatus, err) {
                   alert('error', err);
+                }
+              })
+            }
+
+            function updateSubtaskForm() {
+              $('.subtask').on('click', function(event){
+                console.log($(this).closest('.first-level-task'))
+                $('.subtask-box').empty(); // clear all other reply comment boxes
+
+                  $(this).parent().next('.subtask-box').html(`
+                    <form id="subtask-form" role="form">
+                        <div class="form-group">
+                            <label for="subtask-description">Subtask description</label>
+                            <textarea class="form-control" id="subtask-description" aria-describedby="text-description" placeholder="Task Description" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-plus-circle"></i> Add New Subtask </button>
+                        <a href="javascript:closeSubtask()" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-plus-cross"></i> Close </a>
+
+                        <input type="hidden" id="task-id" value="${$(this).attr("data-id")}" />
+                    </form>`);
+
+                  // for replys to comments
+                  $( "#subtask-form" ).submit(function( event ) {
+                    event.preventDefault();
+
+                    // grab form values
+                    var subtaskData = {
+                      description: $( "#subtask-description" ).val(),
+                      task: $( "#task-id" ).val()
+                    }
+
+                    if (subtaskData.description.length == 0) {
+                      alert('error', "Please enter a description!");
+                      return;
+                    }
+
+                    $('.subtask-box').empty(); // clear all other subtask boxes
+
+                    //now send ajax request
+                    $.ajax({
+                      url: '/api/task/second-level',
+                      type: 'POST',
+                      data: subtaskData,
+                      success: function(data, textStatus, jqXHR) {
+                        if(data.confirmation != 'success') {
+                          alert('error', data.data);
+                        } else {
+                          data = data.data;
+                          $(`#${subtaskData.task}-container`).append(`<!-- second level task -->
+                          <li class="task ml-5 task-warning ui-sortable-handle d-flex">
+                            <div class="m-0 checkbox checkbox-custom checkbox-circle checkbox-single">
+                                <input class="task-checkbox" data-id="${data.id}" id="${data.id}-checkbox" type="checkbox"><!--add attribute checked="" to make it checked-->
+                                <label class="mb-0" for="${data.id}-checkbox"></label>
+                            </div>
+                              <p class="task-description ml-2 mb-0">${data.description}</p>
+                              <a class="ml-auto delete text-custom" data-id="${data.id}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
+                          </li>`);
+                          updateTasks();
+                        }
+
+                      },
+                      error: function(jqHXR, textStatus, err) {
+                        alert('error', err);
+                      }
+                    })
+                  });
+              });
+            }
+
+            function updateTasks() {
+              $('.delete').on('click', function(event){
+                  // grab form values
+                  $(this).closest(".task").fadeOut(300, function(){ $(this).remove();});
+
+                  var deleteData = {
+                    task: $(this).attr("data-id")
+                  }
+
+                  //now send ajax request
+                  $.ajax({
+                    url: '/api/task/delete',
+                    type: 'POST',
+                    data: deleteData,
+                    success: function(data, textStatus, jqXHR) {
+                      if(data.confirmation != 'success') {
+                        alert('error', data.data);
+                      }
+                    },
+                    error: function(jqHXR, textStatus, err) {
+                      alert('error', err);
+                    }
+                  })
+              });
+
+              // do stuff when checkbox is checked
+              $('.task-checkbox').change(function() {
+                var taskID = $(this).attr('data-id');
+
+                if( $(this).is(':checked') ) {
+                  // checkbox is checked
+                  $(this).parent().next().css("text-decoration", "line-through");
+                  //now send ajax request
+                  updateCheck(taskID, true);
+
+                } else {
+                  // checkbox is not checked
+                  $(this).parent().next().css("text-decoration", "none");
+                  //now send ajax request
+                  updateCheck(taskID, false);
                 }
               })
             }
