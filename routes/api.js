@@ -125,6 +125,60 @@ router.post('/reply/second-level', (req, res) => {
 		})
 })
 
+router.post('/task/second-level', (req, res) => {
+	const controller = controllers['task'];
+
+	controller.postSecondLevel(req, req.body)
+		.then(data => {
+			res.json({
+				confirmation: 'success',
+				data: data
+			})
+		})
+		.catch(err => {
+			res.json({
+				confirmation: 'fail',
+				data: err.message
+			})
+		})
+})
+
+router.post('/task/check', (req, res) => {
+	const controller = controllers['task'];
+
+	controller.check(req, req.body)
+		.then(data => {
+			res.json({
+				confirmation: 'success',
+				data: data
+			})
+		})
+		.catch(err => {
+			res.json({
+				confirmation: 'fail',
+				data: err.message
+			})
+		})
+})
+
+router.post('/task/delete', (req, res) => {
+	const controller = controllers['task'];
+
+	controller.delete(req, req.body)
+		.then(data => {
+			res.json({
+				confirmation: 'success',
+				data: data
+			})
+		})
+		.catch(err => {
+			res.json({
+				confirmation: 'fail',
+				data: err.message
+			})
+		})
+})
+
 router.post('/user/update', (req, res) => {
 	const controller = controllers['user'];
 

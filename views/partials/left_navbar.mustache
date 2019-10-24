@@ -60,6 +60,22 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a href="javascript: void(0);"><i class="fi-stack"></i> <span> Apps </span> <span class="menu-arrow"></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        {{#user}}
+                        <!-- logged in -->
+                        <li><a href="/apps/todo">Todo Task List</a></li>
+                        {{/user}}
+
+                        {{^user}}
+                        <!-- not logged in -->
+                        <li><a href="javascript:alert('Error','Must be logged in!')">Todo Task List</a></li>
+                        {{/user}}
+                    </ul>
+                </li>
+
+
             </ul>
 
         </div>

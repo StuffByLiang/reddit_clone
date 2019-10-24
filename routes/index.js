@@ -80,4 +80,7 @@ router.get('/room/:slug/topic/:topicSlug/edit', require('./pages/room/edittopic.
 router.get('/user/:user', require('./pages/user'))
 router.get('/editprofile', require('./pages/editprofile'))
 
+/************* Apps *************/
+router.get('/apps/todo', require('./pages/apps/todo'))
+
 module.exports = router
