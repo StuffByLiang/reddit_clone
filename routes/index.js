@@ -16,10 +16,25 @@ router.get('/', (req, res) => {
 
 	config = {
 		cdn: CDN,
-		pageTitle: 'Home'
-	};
+		pageTitle: 'Latest Posts'
+	}
 
-	helpers.displayPage(req, res, 'index', config);
+	//get all recent topics
+	turbo.fetch('topic', null)
+    .then(topics => {
+      config['topics'] = topics;
+
+			// convert date time into FORMAT ___ units ago
+			for(topic of config.topics) {
+				topic.timestamp = ta.ago(topic.timestamp);
+			}
+
+      // get the room that is being fetched on the page params
+      helpers.displayPage(req, res, 'posts', config);
+    })
+		.catch(err => {
+			res.render('posts', config);
+		})
 
 })
 
