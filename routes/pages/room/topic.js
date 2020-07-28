@@ -14,7 +14,7 @@ module.exports = (req, res) => {
     pageTitle: undefined
   }
 
-	if(req.vertexSession == null || req.vertexSession.user == null) {
+	if(req.session == null || req.session.user == null) {
     // if no one is logged in, display page with no user data
     require('./helpers/topic/display-page-not-logged-in')(req, res, config, slug, topicSlug);
   } else {

@@ -30,14 +30,14 @@ module.exports = {
   post: (req, body) => {
     return new Promise((resolve, reject) => {
       // if logged in, do this stuff, otherwise reject.
-      if(req.vertexSession == null || req.vertexSession.user == null) {
+      if(req.session == null || req.session.user == null) {
         // not logged in
           reject({message: "Not logged in. Cannot add task."})
       } else {
         // logged in!
 
         // get user data
-        turbo.fetchOne('user', req.vertexSession.user.id)
+        turbo.fetchOne('user', req.session.user.id)
           .then(user => {
             body['user'] = {
               id: user.id,
@@ -62,7 +62,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       console.log(body)
       // if logged in, do this stuff, otherwise reject.
-      if(req.vertexSession == null || req.vertexSession.user == null) {
+      if(req.session == null || req.session.user == null) {
           reject({message: "Not logged in. Cannot add subtask."})
         } else {
           // logged in!
@@ -71,7 +71,7 @@ module.exports = {
           turbo.fetchOne('task', body['task'])
             .then(task => {
               // Now fetch topic
-               return turbo.fetchOne('user', req.vertexSession.user.id);
+               return turbo.fetchOne('user', req.session.user.id);
             })
             .then(user => {
               body['user'] = {
@@ -96,7 +96,7 @@ module.exports = {
   check: (req, body) => {
     return new Promise((resolve, reject) => {
       // if logged in, do this stuff, otherwise reject.
-      if(req.vertexSession == null || req.vertexSession.user == null) {
+      if(req.session == null || req.session.user == null) {
           reject({message: "Not logged in. Cannot check/uncheck."})
         } else {
           // logged in!
@@ -117,7 +117,7 @@ module.exports = {
   delete: (req, body) => {
     return new Promise((resolve, reject) => {
       // if logged in, do this stuff, otherwise reject.
-      if(req.vertexSession == null || req.vertexSession.user == null) {
+      if(req.session == null || req.session.user == null) {
           reject({message: "Not logged in. Cannot check/uncheck."})
         } else {
           // logged in!

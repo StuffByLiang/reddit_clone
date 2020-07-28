@@ -4,7 +4,7 @@ const ta = require('time-ago')
 
 //fetch from database room with slug that matches the paramater 'slug'
 module.exports = function(req, res, config, slug) {
-  turbo.fetchOne('user', req.vertexSession.user.id)
+  turbo.fetchOne('user', req.session.user.id)
     .then(data => {
       config['user'] = data;
 

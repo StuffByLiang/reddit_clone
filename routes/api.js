@@ -183,7 +183,7 @@ router.post('/user/update', (req, res) => {
 	const controller = controllers['user'];
 
 	// check if user is logged in
-	if(req.vertexSession == null || req.vertexSession.user == null) {
+	if(req.session == null || req.session.user == null) {
 		// not logged in
 		res.json({
 			confirmation: 'fail',
@@ -211,7 +211,7 @@ router.post('/topic/update', (req, res) => {
 	const controller = controllers['topic'];
 
 	// check if user is logged in
-	if(req.vertexSession == null || req.vertexSession.user == null) {
+	if(req.session == null || req.session.user == null) {
 		// not logged in
 		res.json({
 			confirmation: 'fail',

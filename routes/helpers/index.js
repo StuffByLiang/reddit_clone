@@ -2,12 +2,12 @@ const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 
 module.exports = {
   displayPage: function(req, res, page, config) {
-    if(req.vertexSession == null || req.vertexSession.user == null) {
+    if(req.session == null || req.session.user == null) {
   		//render the regular page if no one is logged in
   		res.render(page, config);
   	} else {
   		//if someone is logged in, pass the username into the config variable
-  		turbo.fetchOne('user', req.vertexSession.user.id)
+  		turbo.fetchOne('user', req.session.user.id)
   			.then(data => {
   				config['user'] = data;
 

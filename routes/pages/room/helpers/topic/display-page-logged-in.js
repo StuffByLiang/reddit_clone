@@ -4,7 +4,7 @@ const ta = require('time-ago')
 
 //fetch from database room with slug that matches the paramater 'slug'
 module.exports = function(req, res, config, slug, topicSlug) {
-  turbo.fetchOne('user', req.vertexSession.user.id)
+  turbo.fetchOne('user', req.session.user.id)
     .then(data => {
       config['user'] = data;
 
@@ -51,7 +51,7 @@ module.exports = function(req, res, config, slug, topicSlug) {
         config['pageTitle'] = topics[0].room.name + " > " + topics[0].title;
 
         // check if the current logged in user is the writer
-        if(req.vertexSession.user.id == topics[0].user.id) {
+        if(req.session.user.id == topics[0].user.id) {
           config['canEdit'] = true; // set canEdit to true
         }
 

@@ -11,13 +11,13 @@ module.exports = (req, res) => {
 		pageTitle: 'Todo List'
 	};
 
-  if(req.vertexSession == null || req.vertexSession.user == null) {
+  if(req.session == null || req.session.user == null) {
     //redirect if not logged in
     res.redirect('/');
   } else {
     // get all first-level tasks that has the id of the user data
     turbo.fetch('task', {
-      'user.id': req.vertexSession.user.id,
+      'user.id': req.session.user.id,
       type: 'first-level'
     })
 			.then(tasks => {

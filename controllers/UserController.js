@@ -41,7 +41,7 @@ module.exports = {
 
   update: (req, body) => {
     return new Promise((resolve, reject) => {
-      turbo.updateEntity(resource, req.vertexSession.user.id, {
+      turbo.updateEntity(resource, req.session.user.id, {
         [body.name]: body.value
       })
       .then(data => {

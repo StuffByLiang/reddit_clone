@@ -14,12 +14,12 @@ module.exports = (req, res) => {
     pageTitle: undefined
   }
 
-	if(req.vertexSession == null || req.vertexSession.user == null) {
+	if(req.session == null || req.session.user == null) {
 		//redirect if not logged in
 		res.redirect('/');
 	} else {
 		//if someone is logged in, pass the username into the config variable
-		turbo.fetchOne('user', req.vertexSession.user.id)
+		turbo.fetchOne('user', req.session.user.id)
 			.then(data => {
 				config['user'] = data;
 
@@ -54,7 +54,7 @@ module.exports = (req, res) => {
 					config['topic'] = topics[0];
 
 					// if the writer is not the current logged in user, send his ass out
-	        if(req.vertexSession.user.id != topics[0].user.id) {
+	        if(req.session.user.id != topics[0].user.id) {
 	          res.redirect('/');
 	        } else {
 						// FINALLY RENDER ROOM

@@ -51,7 +51,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
 
       // if logged in, do this stuff, otherwise reject.
-      if(req.vertexSession == null || req.vertexSession.user == null) {
+      if(req.session == null || req.session.user == null) {
           reject({message: "Not logged in. Cannot create a new topic."})
         } else {
           // logged in!
@@ -69,7 +69,7 @@ module.exports = {
                   slug: body.room,
                   name: rooms[0].category
                 }
-      	        return turbo.fetchOne('user', req.vertexSession.user.id)
+      	        return turbo.fetchOne('user', req.session.user.id)
 
       	      } else if(rooms.length === 0) {
       	        //if there are no results, throw an error

@@ -51,11 +51,11 @@ module.exports = {
     return new Promise((resolve, reject) => {
 
       // if logged in, do this stuff, otherwise reject.
-      if(req.vertexSession == null || req.vertexSession.user == null) {
+      if(req.session == null || req.session.user == null) {
           reject({message: "Not logged in. Cannot create a room"})
         } else {
           // logged in!
-          body['subscribers'] = [req.vertexSession.user.id]; //add the user id to room subscribers
+          body['subscribers'] = [req.session.user.id]; //add the user id to room subscribers
           body['slug'] = slugify(body.category.toLowerCase().substr(0,40));
 
           // check if the room as been created before
@@ -67,7 +67,7 @@ module.exports = {
 
       	      } else if(rooms.length === 0) {
       	        //if there are no results, continue on with fetching the user
-      	        return turbo.fetchOne('user', req.vertexSession.user.id);
+      	        return turbo.fetchOne('user', req.session.user.id);
       	      }
             })
             .then(user => {

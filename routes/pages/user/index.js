@@ -20,8 +20,8 @@ module.exports = (req, res) => {
       config.pageTitle = 'User > ' + users[0].username;
 
       // check if this profile is the current logged in user
-      if(req.vertexSession.user!=null)
-        if(req.vertexSession.user.id === users[0].id) {
+      if(req.session.user!=null)
+        if(req.session.user.id === users[0].id) {
           // the logged in user is the same as this profile!
           config.editable = true;
         } else {

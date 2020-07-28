@@ -1,33 +1,36 @@
 // Full Documentation - https://www.turbo360.co/docs
 const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
+const mustacheExpress = require('mustache-express');
+const express = require('express')
+const bodyParser = require('body-parser')
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
-const app = vertex.express() // initialize app
+// const app = vertex.express() // initialize app
 
+const app = express()
 
-/*
-	Apps can also be initialized with config options as shown in the commented out example below. Options
-	include setting views directory, static assets directory, and database settings. To see default config
-	settings, view here: https://www.turbo360.co/docs
+// set view engine to mustache
+app.engine('mustache', mustacheExpress(__dirname + '/views/partials', '.mustache'));
+app.set('view engine', 'mustache');
+app.set('views', __dirname + '/views');
 
-const config = {
-	views: 'views', 		// Set views directory
-	static: 'public', 		// Set static assets directory
-	db: { 					// Database configuration. Remember to set env variables in .env file: MONGODB_URI, PROD_MONGODB_URI
-		url: (process.env.TURBO_ENV == 'dev') ? process.env.MONGODB_URI : process.env.PROD_MONGODB_URI,
-		type: 'mongo',
-		onError: (err) => {
-			console.log('DB Connection Failed!')
-		},
-		onSuccess: () => {
-			console.log('DB Successfully Connected!')
-		}
-	}
-}
+// use static files
+app.use(express.static('public'))
 
-const app = vertex.app(config) // initialize app with config options
+// support post requests
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
 
-*/
-
+// initialize session
+app.use(session({
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 
 // import routes
 const index = require('./routes/index')

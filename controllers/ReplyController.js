@@ -30,7 +30,7 @@ module.exports = {
   post: (req, body) => {
     return new Promise((resolve, reject) => {
       // if logged in, do this stuff, otherwise reject.
-      if(req.vertexSession == null || req.vertexSession.user == null) {
+      if(req.session == null || req.session.user == null) {
           reject({message: "Not logged in. Cannot reply with a comment."})
         } else {
           // logged in!
@@ -61,7 +61,7 @@ module.exports = {
             })
             .then(data => {
               // then get user data
-              return turbo.fetchOne('user', req.vertexSession.user.id)
+              return turbo.fetchOne('user', req.session.user.id)
             })
             .then(user => {
               body['user'] = {
@@ -87,7 +87,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       console.log(body)
       // if logged in, do this stuff, otherwise reject.
-      if(req.vertexSession == null || req.vertexSession.user == null) {
+      if(req.session == null || req.session.user == null) {
           reject({message: "Not logged in. Cannot reply with a comment."})
         } else {
           // logged in!
@@ -118,7 +118,7 @@ module.exports = {
             })
             .then(data => {
               // if found within the database, everything is okay, next get user info
-    	        return turbo.fetchOne('user', req.vertexSession.user.id)
+    	        return turbo.fetchOne('user', req.session.user.id)
             })
             .then(user => {
               body['user'] = {

@@ -5,7 +5,7 @@ const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
 
 module.exports = (req, res) => {
 
-	if(req.vertexSession == null || req.vertexSession.user == null) {
+	if(req.session == null || req.session.user == null) {
 		//redirect to home if not logged in
 		res.redirect('/');
 		return;
@@ -16,7 +16,7 @@ module.exports = (req, res) => {
 		pageTitle: 'Edit your profile'
 	};
 
-  turbo.fetchOne('user', req.vertexSession.user.id)
+  turbo.fetchOne('user', req.session.user.id)
     .then(user => {
       config.userInfo = user;
 

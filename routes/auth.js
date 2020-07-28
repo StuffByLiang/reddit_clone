@@ -31,7 +31,7 @@ router.post('/register', (req, res) => {
         }
       })
       .then(data => {
-        req.vertexSession.user = {id: data.id}
+        req.session.user = {id: data.id}
 
         res.json({
           confirmation: 'success',
@@ -50,9 +50,9 @@ router.post('/register', (req, res) => {
   router.post('/login', (req, res) => {
     turbo.login(req.body)
     .then(data => {
-      //succesful login! set vertexSession
+      //succesful login! set session
 
-      req.vertexSession.user = {id: data.id}
+      req.session.user = {id: data.id}
 
       res.json({
         confirmation: 'success',
@@ -70,7 +70,7 @@ router.post('/register', (req, res) => {
   router.get('/currentuser', (req, res) => {
 
     // no one logged in
-    if(req.vertexSession == null || req.vertexSession.user == null) {
+    if(req.session == null || req.session.user == null) {
       res.json({
         confirmation: 'success',
         user: null
@@ -78,7 +78,7 @@ router.post('/register', (req, res) => {
       return
     } else {
       //someone logged in
-      turbo.fetchOne('user', req.vertexSession.user.id)
+      turbo.fetchOne('user', req.session.user.id)
         .then(data => {
           res.json({
             confirmation: 'success',
@@ -97,7 +97,7 @@ router.post('/register', (req, res) => {
 
 router.get('/logout', (req, res) => {
 
-  req.vertexSession.reset() //delete session variable
+  req.session.reset() //delete session variable
   res.redirect('/'); //redirect to home
 
 })

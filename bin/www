@@ -64,7 +64,7 @@ function onListening() {
 
 // this controls socket.io
 // app.use((req, res, next) => {
-//   console.log('lol ' + JSON.stringify(req.vertexSession.user))
+//   console.log('lol ' + JSON.stringify(req.session.user))
 //   app.socket(server, req);
 //   next();
 // })

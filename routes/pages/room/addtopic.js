@@ -12,12 +12,12 @@ module.exports = (req, res) => {
     pageTitle: undefined
   }
 
-	if(req.vertexSession == null || req.vertexSession.user == null) {
+	if(req.session == null || req.session.user == null) {
 		//redirect if not logged in
 		res.redirect('/');
 	} else {
 		//if someone is logged in, pass the username into the config variable
-		turbo.fetchOne('user', req.vertexSession.user.id)
+		turbo.fetchOne('user', req.session.user.id)
 			.then(data => {
 				config['user'] = data;
 
