@@ -5,6 +5,15 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+
+// connect to mongodb
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true});
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("sucessfully connected to mongodb")
+});
 
 // const app = vertex.express() // initialize app
 

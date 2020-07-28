@@ -66,7 +66,7 @@ router.get('/:resource', (req, res) => {
 	}
 
 	controller.get(req.query)
-		.then(data => {
+		.then(data => {			
 			res.json({
 				confirmation: 'success',
 				data: data

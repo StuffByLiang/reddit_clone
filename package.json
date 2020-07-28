@@ -29,6 +29,8 @@
     "fresh": "0.5.2",
     "merge-descriptors": "1.0.1",
     "methods": "^1.1.2",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.26",
     "mustache-express": "^1.3.0",
     "nodemon": "^1.17.1",
     "on-finished": "^2.3.0",
