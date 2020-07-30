@@ -10,7 +10,9 @@ const schema = new mongoose.Schema({
     replyId: String,
     topicId: String,
     id: String,
-    slug: String
+    slug: String,
+    userId: String,
+    username: String
   },
   topicSlug: String,
   comment: String,

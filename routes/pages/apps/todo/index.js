@@ -1,5 +1,5 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const helpers = require('../../../helpers');
+const Task = require('../../../../models/Task')
 
 const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
 
@@ -16,7 +16,7 @@ module.exports = (req, res) => {
     res.redirect('/');
   } else {
     // get all first-level tasks that has the id of the user data
-    turbo.fetch('task', {
+    Task.find({
       'user.id': req.session.user.id,
       type: 'first-level'
     })
@@ -28,7 +28,7 @@ module.exports = (req, res) => {
 
         // now get second-level tasks
 
-        return turbo.fetch('task', {
+        return Task.find({
           type: 'second-level'
         })
 			})

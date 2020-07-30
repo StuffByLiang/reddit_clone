@@ -1,7 +1,7 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
+const User = require("../../../models/User");
+const Room = require("../../../models/Room");
 
 const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
-
 
 module.exports = (req, res) => {
 	const slug = req.params.slug;
@@ -17,17 +17,17 @@ module.exports = (req, res) => {
 		res.redirect('/');
 	} else {
 		//if someone is logged in, pass the username into the config variable
-		turbo.fetchOne('user', req.session.user.id)
+		User.findById(req.session.user.id)
 			.then(data => {
 				config['user'] = data;
 
-				return turbo.fetch('room', {subscribers: data.id}); //get all rooms
+				return Room.find({subscribers: data.id}); //get all rooms
 			})
 			.then(rooms => {
 				config['rooms'] = rooms;
 
 				// get the room that is being fetched on the page params
-	      return turbo.fetch('room', {
+	      return Room.find({
 	        slug: slug
 	      })
 	    })

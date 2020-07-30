@@ -1,10 +1,10 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
-
-const ta = require('time-ago')
+const ta = require('time-ago');
+const Topic = require('../../../../../models/Topic');
+const Room = require('../../../../../models/Room');
 
 //fetch from database room with slug that matches the paramater 'slug'
 module.exports = function(req, res, config, slug) {
-  turbo.fetch('topic', {'room.slug': slug})
+  Topic.find({'room.slug': slug}).sort({'timestamp': 'desc'}).lean()
     .then(topics => {
       config['topics'] = topics;
 
@@ -14,9 +14,9 @@ module.exports = function(req, res, config, slug) {
 			}
 
       // get the room that is being fetched on the page params
-      return turbo.fetch('room', {
+      return Room.find({
         slug: slug
-      })
+      }).sort({'timestamp': 'desc'}).lean()
     })
     .then(data => {
       if(data.length > 0) {

@@ -1,11 +1,12 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const Promise = require('bluebird');
+const Task = require('../models/Task');
+const User = require('../models/User');
 const resource = 'task';
 
 module.exports = {
   get: (params) => {
     return new Promise((resolve, reject) => {
-      turbo.fetch(resource, params)
+      Task.find(params)
         .then(data => {
           resolve(data)
         })
@@ -17,7 +18,7 @@ module.exports = {
 
   getById: (id) => {
     return new Promise((resolve, reject) => {
-      turbo.fetchOne(resource, id)
+      Task.findById(id)
         .then(data => {
           resolve(data)
         })
@@ -37,17 +38,17 @@ module.exports = {
         // logged in!
 
         // get user data
-        turbo.fetchOne('user', req.session.user.id)
+        User.findById(req.session.user.id)
           .then(user => {
             body['user'] = {
-              id: user.id,
+              id: user._id,
               username: user.username
             }
 
             body.type = 'first-level';
             body.checked = false;
 
-            return turbo.create(resource, body)
+            return Task.create(body)
           })
           .then(data => {
             resolve(data)
@@ -68,10 +69,10 @@ module.exports = {
           // logged in!
 
           //check if first level task exists
-          turbo.fetchOne('task', body['task'])
+          Task.findById(body['task'])
             .then(task => {
               // Now fetch topic
-               return turbo.fetchOne('user', req.session.user.id);
+               return User.findById(req.session.user.id);
             })
             .then(user => {
               body['user'] = {
@@ -82,7 +83,7 @@ module.exports = {
               body.type = "second-level";
               body.checked = false;
 
-              return turbo.create(resource, body);
+              return Task.create(body);
             })
             .then(data => {
               resolve(data)
@@ -102,7 +103,7 @@ module.exports = {
           // logged in!
 
           //update entity
-          turbo.updateEntity('task', body['id'], {
+          Task.findByIdAndUpdate(body['id'], {
             checked: body['checked']
           })
             .then(data => {
@@ -123,20 +124,20 @@ module.exports = {
           // logged in!
 
           //get subtasks
-          turbo.fetch('task', {
+          Task.find({
             task: body['task']
           })
             .then(tasks => {
               if(tasks.length > 0) {
                 // if subtasks are found, delete all subtasks.
                 for(task of tasks) {
-                  turbo.removeEntity('task', task.id);
+                  Task.findByIdAndDelete(task._id);
                 }
 
               }
 
               //finally delete the task!
-              return turbo.removeEntity('task', body['task']);
+              return Task.findByIdAndDelete(body['task']);
             })
             .then(data => {
               resolve(data);

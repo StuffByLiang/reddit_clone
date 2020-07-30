@@ -1,5 +1,5 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const helpers = require('../../helpers');
+const User = require('../../../models/User');
 
 const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
 
@@ -16,7 +16,7 @@ module.exports = (req, res) => {
 		pageTitle: 'Edit your profile'
 	};
 
-  turbo.fetchOne('user', req.session.user.id)
+  User.findById(req.session.user.id)
     .then(user => {
       config.userInfo = user;
 

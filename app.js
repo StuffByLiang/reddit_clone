@@ -1,10 +1,7 @@
-// Full Documentation - https://www.turbo360.co/docs
-const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
 const mustacheExpress = require('mustache-express');
-const express = require('express')
+const express = require('express');
 const bodyParser = require('body-parser')
 const session = require('express-session');
-const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
 // connect to mongodb

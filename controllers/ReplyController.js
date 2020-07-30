@@ -1,11 +1,13 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const Promise = require('bluebird');
+const Reply = require('../models/Reply');
+const Topic = require('../models/Topic');
+const User = require('../models/User');
 const resource = 'reply';
 
 module.exports = {
   get: (params) => {
     return new Promise((resolve, reject) => {
-      turbo.fetch(resource, params)
+      Reply.find(params)
         .then(data => {
           resolve(data)
         })
@@ -17,7 +19,7 @@ module.exports = {
 
   getById: (id) => {
     return new Promise((resolve, reject) => {
-      turbo.fetchOne(resource, id)
+      Reply.findById(id)
         .then(data => {
           resolve(data)
         })
@@ -36,7 +38,7 @@ module.exports = {
           // logged in!
 
           //check if room exists
-          turbo.fetch('topic', {
+          Topic.find({
             slug: body.topicSlug
           })
             .then(topics => {
@@ -50,7 +52,7 @@ module.exports = {
                 }
 
                 // Now update topic number of replies
-                return turbo.updateEntity('topic', topics[0].id, {
+                return Topic.findByIdAndUpdate(topics[0].id, {
                   numReplies: topics[0].numReplies + 1
                 });
 
@@ -61,7 +63,7 @@ module.exports = {
             })
             .then(data => {
               // then get user data
-              return turbo.fetchOne('user', req.session.user.id)
+              return User.findById(req.session.user.id)
             })
             .then(user => {
               body['user'] = {
@@ -71,7 +73,7 @@ module.exports = {
 
               body.type = "first-level";
 
-              return turbo.create(resource, body);
+              return Reply.create(body);
             })
             .then(data => {
               resolve(data)
@@ -93,32 +95,36 @@ module.exports = {
           // logged in!
 
           //check if reply exists
-          turbo.fetchOne('reply', body['to[replyId]'])
+          console.log(body.to.replyId)
+          Reply.findById(body.to.replyId)
             .then(reply => {
-              console.log('reply');
+              console.log(reply)
 
+              console.log(body.to)
+              let commentId = body.to.commentId;
               body['to'] = {
                 username: reply.user.username,
                 userId: reply.user.id,
-                replyId: body['to[commentId]'],
+                replyId: commentId,
                 topicId: reply.to.topicId
               }
+              console.log(body.to)
 
-              delete body['to[replyId]']; // idk this is some bug
-              delete body['to[commentId]']; // idk this is some bug
+              // delete body['to[replyId]']; // idk this is some bug
+              // delete body['to[commentId]']; // idk this is some bug
 
               // Now fetch topic
-              return turbo.fetchOne('topic', reply.to.topicId);
+              return Topic.findById(reply.to.topicId);
             })
             .then(topic => {
               // Now update the topic number of replys
-              return turbo.updateEntity('topic', topic.id, {
+              return Topic.findByIdAndUpdate(topic.id, {
                 numReplies: topic.numReplies + 1
               });
             })
             .then(data => {
               // if found within the database, everything is okay, next get user info
-    	        return turbo.fetchOne('user', req.session.user.id)
+    	        return User.findById(req.session.user.id)
             })
             .then(user => {
               body['user'] = {
@@ -128,7 +134,7 @@ module.exports = {
 
               body.type = "second-level";
 
-              return turbo.create(resource, body);
+              return Reply.create(body);
             })
             .then(data => {
               resolve(data)

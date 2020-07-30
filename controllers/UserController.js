@@ -1,11 +1,11 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const Promise = require('bluebird');
+const User = require('../models/User');
 const resource = 'user';
 
 module.exports = {
   get: (params) => {
     return new Promise((resolve, reject) => {
-      turbo.fetch(resource, params)
+      User.find(params)
         .then(data => {
           resolve(data)
         })
@@ -17,7 +17,7 @@ module.exports = {
 
   getById: (id) => {
     return new Promise((resolve, reject) => {
-      turbo.fetchOne(resource, id)
+      User.findById(id)
         .then(data => {
           resolve(data)
         })
@@ -29,7 +29,7 @@ module.exports = {
 
   post: (req, body) => {
     return new Promise((resolve, reject) => {
-      turbo.create(resource, body)
+      User.create(body)
       .then(data => {
         resolve(data)
       })
@@ -41,7 +41,7 @@ module.exports = {
 
   update: (req, body) => {
     return new Promise((resolve, reject) => {
-      turbo.updateEntity(resource, req.session.user.id, {
+      User.findByIdAndUpdate(req.session.user.id, {
         [body.name]: body.value
       })
       .then(data => {

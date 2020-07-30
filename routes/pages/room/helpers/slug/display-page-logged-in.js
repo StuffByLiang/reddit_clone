@@ -1,15 +1,17 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
+const ta = require('time-ago');
+const User = require('../../../../../models/User');
+const Room = require('../../../../../models/Room');
+const Topic = require('../../../../../models/Topic');
 
-const ta = require('time-ago')
 
 //fetch from database room with slug that matches the paramater 'slug'
 module.exports = function(req, res, config, slug) {
-  turbo.fetchOne('user', req.session.user.id)
+  User.findById(req.session.user.id)
     .then(data => {
       config['user'] = data;
 
       // get all the rooms that the user is subsrcibed to
-      return turbo.fetch('room', {
+      return Room.find({
         subscribers: data.id
       });
     })
@@ -17,7 +19,7 @@ module.exports = function(req, res, config, slug) {
       config['rooms'] = rooms
 
       // get all the topics from the room
-      return turbo.fetch('topic', {'room.slug': slug})
+      return Topic.find({'room.slug': slug}).sort({'timestamp': 'desc'}).lean()
     })
     .then(topics => {
       config['topics'] = topics;
@@ -28,7 +30,7 @@ module.exports = function(req, res, config, slug) {
       }
 
       // get the room that is being fetched on the page params
-      return turbo.fetch('room', {
+      return Room.find({
         slug: slug
       })
     })

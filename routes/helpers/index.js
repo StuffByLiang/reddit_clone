@@ -1,4 +1,5 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
+const User = require('../../models/User');
+const Room = require('../../models/Room');
 
 module.exports = {
   displayPage: function(req, res, page, config) {
@@ -7,11 +8,11 @@ module.exports = {
   		res.render(page, config);
   	} else {
   		//if someone is logged in, pass the username into the config variable
-  		turbo.fetchOne('user', req.session.user.id)
+  		User.findById(req.session.user.id)
   			.then(data => {
   				config['user'] = data;
 
-  				return turbo.fetch('room', {subscribers: data.id}); //get all rooms
+  				return Room.find({subscribers: data.id}); //get all rooms
   			})
   			.then(rooms => {
   				config['rooms'] = rooms;

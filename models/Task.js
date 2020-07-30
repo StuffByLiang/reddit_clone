@@ -8,6 +8,7 @@ const schema = new mongoose.Schema({
     id: String
   },
   task: String,
+  title: String,
   description: String,
   timestamp: {
     type: Date,

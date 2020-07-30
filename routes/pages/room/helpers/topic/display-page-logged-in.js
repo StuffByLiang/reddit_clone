@@ -1,25 +1,27 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
-
-const ta = require('time-ago')
+const ta = require('time-ago');
+const User = require('../../../../../models/User');
+const Room = require('../../../../../models/Room');
+const Topic = require('../../../../../models/Topic');
+const Reply = require('../../../../../models/Reply');
 
 //fetch from database room with slug that matches the paramater 'slug'
 module.exports = function(req, res, config, slug, topicSlug) {
-  turbo.fetchOne('user', req.session.user.id)
+  User.findById(req.session.user.id)
     .then(data => {
       config['user'] = data;
 
       // get all the rooms that the user is subsrcibed to
-      return turbo.fetch('room', {
+      return Room.find({
         subscribers: data.id
-      });
+      }).sort({'timestamp': 'desc'}).lean();
     })
     .then(rooms => {
       config['rooms'] = rooms
 
       // get the room that is being fetched on the page params
-      return turbo.fetch('room', {
+      return Room.find({
         slug: slug
-      })
+      }).sort({'timestamp': 'desc'}).lean()
 
     })
     .then(rooms => {
@@ -34,7 +36,7 @@ module.exports = function(req, res, config, slug, topicSlug) {
         }
 
         // get the topic from the room
-        return turbo.fetch('topic', {slug: topicSlug})
+        return Topic.find({slug: topicSlug}).sort({'timestamp': 'desc'}).lean()
 
       } else if(rooms.length === 0) {
         //if there are no results, tell client the room was not found
@@ -59,10 +61,10 @@ module.exports = function(req, res, config, slug, topicSlug) {
         config.topic.timestamp = ta.ago(config.topic.timestamp);
 
         // now get top-level replys
-        return turbo.fetch('reply', {
+        return Reply.find({
           type: 'first-level',
           topicSlug: topicSlug
-        })
+        }).sort({'timestamp': 'desc'}).lean()
 
       } else if(topics.length === 0) {
         //if there are no results, tell client the room was not found
@@ -82,10 +84,10 @@ module.exports = function(req, res, config, slug, topicSlug) {
       config.replys = replys;
 
       // now get second-level replys
-      return turbo.fetch('reply', {
+      return Reply.find({
         type: 'second-level',
         topicSlug: topicSlug
-      })
+      }).sort({'timestamp': 'desc'}).lean()
 
     })
     .then(replys => {
@@ -103,7 +105,7 @@ module.exports = function(req, res, config, slug, topicSlug) {
 
       for(secondLevelReply of replys) {
         for(firstLevelReply of config.replys) {
-          if(firstLevelReply.id == secondLevelReply.to.replyId) {
+          if(firstLevelReply._id == secondLevelReply.to.replyId) {
             firstLevelReply.replys.push(secondLevelReply)
           }
         }

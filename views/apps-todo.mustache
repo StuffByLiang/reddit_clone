@@ -62,13 +62,13 @@
 
                                     <ul class="sortable-list taskList list-unstyled ui-sortable" id="upcoming">
                                         {{#tasks}}
-                                        <div id="{{id}}-container" class="task mt-3">
+                                        <div id="{{_id}}-container" class="task mt-3">
                                         <!-- first level task -->
-                                        <li class="first-level-task task-warning ui-sortable-handle" id="{{id}}">
+                                        <li class="first-level-task task-warning ui-sortable-handle" id="{{_id}}">
                                           <div class="d-flex">
                                             <div class="m-0 checkbox checkbox-custom checkbox-circle checkbox-single">
-                                                <input class="task-checkbox" id="{{id}}-checkbox" data-id="{{id}}" type="checkbox" {{#checked}}checked=""{{/checked}}><!--add attribute checked="" to make it checked-->
-                                                <label class="mb-0" for="{{id}}-checkbox1"></label>
+                                                <input class="task-checkbox" id="{{_id}}-checkbox" data-id="{{_id}}" type="checkbox" {{#checked}}checked=""{{/checked}}><!--add attribute checked="" to make it checked-->
+                                                <label class="mb-0" for="{{_id}}-checkbox1"></label>
                                             </div>
                                             <div class="task-description ml-2" {{#checked}}style="text-decoration: line-through;"{{/checked}}>
                                                 <h3 style="line-height: 18px" class="header-title mb-0">{{title}}</h3>
@@ -78,9 +78,9 @@
 
                                           <!-- options -->
                                           <div class="">
-                                            <a class="text-primary subtask" data-id="{{id}}" href="javascript:void(0)">Add a sub-task</a>
+                                            <a class="text-primary subtask" data-id="{{_id}}" href="javascript:void(0)">Add a sub-task</a>
 
-                                            <a class="float-right delete text-custom" data-id="{{id}}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
+                                            <a class="float-right delete text-custom" data-id="{{_id}}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
                                           </div>
 
                                           <div class="subtask-box">
@@ -91,11 +91,11 @@
                                             <!-- second level task -->
                                             <li class="task ml-5 task-warning ui-sortable-handle d-flex">
                                               <div class="m-0 checkbox checkbox-custom checkbox-circle checkbox-single">
-                                                  <input class="task-checkbox" data-id="{{id}}" id="{{id}}-checkbox" type="checkbox" {{#checked}}checked=""{{/checked}}><!--add attribute checked="" to make it checked-->
-                                                  <label class="mb-0" for="{{id}}-checkbox"></label>
+                                                  <input class="task-checkbox" data-id="{{_id}}" id="{{_id}}-checkbox" type="checkbox" {{#checked}}checked=""{{/checked}}><!--add attribute checked="" to make it checked-->
+                                                  <label class="mb-0" for="{{_id}}-checkbox"></label>
                                               </div>
                                                 <p class="task-description ml-2 mb-0" {{#checked}}style="text-decoration: line-through;"{{/checked}}>{{description}}</p>
-                                                <a class="ml-auto delete text-custom" data-id="{{id}}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
+                                                <a class="ml-auto delete text-custom" data-id="{{_id}}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
                                             </li>
                                             {{/subtasks}}
                                           </div>
@@ -199,13 +199,14 @@
                         alert('error', data.data);
                       } else {
                         data=data.data;
-                        $(".taskList").append(`<div id="${data.id}-container"  class="task mt-3">
+                        console.log(data)
+                        $(".taskList").append(`<div id="${data._id}-container"  class="task mt-3">
                         <!-- first level task -->
-                        <li class="first-level-task task-warning ui-sortable-handle" id="${data.id}">
+                        <li class="first-level-task task-warning ui-sortable-handle" id="${data._id}">
                           <div class="d-flex">
                             <div class="m-0 checkbox checkbox-custom checkbox-circle checkbox-single">
-                                <input class="task-checkbox" id="${data.id}-checkbox" data-id="${data.id}" type="checkbox"><!--add attribute checked="" to make it checked-->
-                                <label class="mb-0" for="${data.id}-checkbox1"></label>
+                                <input class="task-checkbox" id="${data._id}-checkbox" data-id="${data._id}" type="checkbox"><!--add attribute checked="" to make it checked-->
+                                <label class="mb-0" for="${data._id}-checkbox1"></label>
                             </div>
                             <div class="task-description ml-2">
                                 <h3 style="line-height: 18px" class="header-title mb-0">${data.title}</h3>
@@ -215,9 +216,9 @@
 
                           <!-- options -->
                           <div class="">
-                            <a class="text-primary subtask" data-id="${data.id}" href="javascript:void(0)">Add a sub-task</a>
+                            <a class="text-primary subtask" data-id="${data._id}" href="javascript:void(0)">Add a sub-task</a>
 
-                            <a class="float-right delete text-custom" data-id="${data.id}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
+                            <a class="float-right delete text-custom" data-id="${data._id}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
                           </div>
 
                           <div class="subtask-box">
@@ -247,7 +248,7 @@
                 url: '/api/task/check',
                 type: 'POST',
                 data: {
-                  id: id,
+                  _id: id,
                   checked: checked
                 },
                 success: function(data, textStatus, jqXHR) {
@@ -312,11 +313,11 @@
                           $(`#${subtaskData.task}-container`).append(`<!-- second level task -->
                           <li class="task ml-5 task-warning ui-sortable-handle d-flex">
                             <div class="m-0 checkbox checkbox-custom checkbox-circle checkbox-single">
-                                <input class="task-checkbox" data-id="${data.id}" id="${data.id}-checkbox" type="checkbox"><!--add attribute checked="" to make it checked-->
-                                <label class="mb-0" for="${data.id}-checkbox"></label>
+                                <input class="task-checkbox" data-id="${data._id}" id="${data._id}-checkbox" type="checkbox"><!--add attribute checked="" to make it checked-->
+                                <label class="mb-0" for="${data._id}-checkbox"></label>
                             </div>
                               <p class="task-description ml-2 mb-0">${data.description}</p>
-                              <a class="ml-auto delete text-custom" data-id="${data.id}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
+                              <a class="ml-auto delete text-custom" data-id="${data._id}" href="javascript:void(0)"><i class="dripicons-trash"></i></a>
                           </li>`);
                           updateTasks();
                         }

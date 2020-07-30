@@ -1,11 +1,10 @@
 // Full Documentation - https://www.turbo360.co/docs
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
-const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
-const router = vertex.router()
+const router = require('express').Router()
 
 const ta = require('time-ago')
 
 const helpers = require('./helpers');
+const Topic = require('../models/Topic');
 
 const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
 
@@ -20,7 +19,7 @@ router.get('/', (req, res) => {
 	}
 
 	//get all recent topics
-	turbo.fetch('topic', null)
+	Topic.find({}).sort({'timestamp': 'desc'}).lean()
     .then(topics => {
       config['topics'] = topics;
 
@@ -46,7 +45,7 @@ router.get('/posts', (req, res) => {
 	}
 
 	//get all recent topics
-	turbo.fetch('topic', null)
+	Topic.find({}).sort({'timestamp': 'desc'}).lean()
     .then(topics => {
       config['topics'] = topics;
 

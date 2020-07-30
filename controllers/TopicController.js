@@ -1,6 +1,8 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const Promise = require('bluebird');
 const resource = 'topic';
+const Topic = require('../models/Topic');
+const Room = require('../models/Room');
+const User = require('../models/User');
 
 const slugify = function(text){
  	return text.toString().toLowerCase()
@@ -24,7 +26,7 @@ const randomString = function(numChars) {
 module.exports = {
   get: (params) => {
     return new Promise((resolve, reject) => {
-      turbo.fetch(resource, params)
+      Topic.find(params)
         .then(data => {
           resolve(data)
         })
@@ -36,7 +38,7 @@ module.exports = {
 
   getById: (id) => {
     return new Promise((resolve, reject) => {
-      turbo.fetchOne(resource, id)
+      Topic.findById(id)
         .then(data => {
           resolve(data)
         })
@@ -59,7 +61,7 @@ module.exports = {
           body.numReplies = 0;
           //check if room exists
 
-          turbo.fetch('room', {
+          Room.find({
             slug: body.room
           })
             .then(rooms => {
@@ -69,7 +71,7 @@ module.exports = {
                   slug: body.room,
                   name: rooms[0].category
                 }
-      	        return turbo.fetchOne('user', req.session.user.id)
+      	        return User.findById(req.session.user.id)
 
       	      } else if(rooms.length === 0) {
       	        //if there are no results, throw an error
@@ -81,8 +83,8 @@ module.exports = {
                 id: user.id,
                 username: user.username
               }
-
-              return turbo.create(resource, body)
+              console.log(body)
+              return Topic.create(body)
             })
             .then(data => {
               resolve(data)
@@ -97,10 +99,10 @@ module.exports = {
     return new Promise((resolve, reject) => {
 
       // fetch topic using topicSlug
-      turbo.fetch('topic', {slug: body.topicSlug })
+      Topic.find({slug: body.topicSlug })
         .then(topics => {
           // get the topicId from the topicSlug
-          return turbo.updateEntity(resource, topics[0].id, {
+          return Topic.findByIdAndUpdate(topics[0].id, {
             description: body.description
           });
         })

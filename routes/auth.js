@@ -1,7 +1,8 @@
-// Full Documentation - https://www.turbo360.co/docs
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
-const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
-const router = vertex.router()
+const express = require('express');
+const router = express.Router();
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const validRegex = /^[a-zA-Z0-9_-]{6,16}$/;
 
@@ -12,9 +13,9 @@ router.post('/register', (req, res) => {
       message: 'Username must be at least 6 characters up to a max of 16, and must contain letters, numbers, or hyphens (-) and underscores (_)'
     })
   } else {
-    turbo.fetch('user', { username: req.body.username })
-      .then(user => {
-        if(user.length > 0) {
+    User.findOne({ lowercase: req.body.username.toLowerCase() })
+      .then(async user => {
+        if(user) {
           //if username is found within database, throw an error
           res.json({
             confirmation: 'fail',
@@ -22,12 +23,15 @@ router.post('/register', (req, res) => {
           })
           return;
 
-        } else if(user.length === 0) {
+        } else {
           //if there are no results, continue on!
 
           req.body.lowercase = req.body.username.toLowerCase(); // add a lower case form of the username for authentication
 
-          return turbo.createUser(req.body)
+          return User.create({
+            ...req.body,
+            password: await bcrypt.hash(req.body.password, saltRounds)
+          })
         }
       })
       .then(data => {
@@ -48,16 +52,34 @@ router.post('/register', (req, res) => {
 })
 
   router.post('/login', (req, res) => {
-    turbo.login(req.body)
-    .then(data => {
-      //succesful login! set session
+    User.findOne({lowercase: req.body.username.toLowerCase()})
+    .then(async data => {
+      console.log(data)
+      if(!data) {
+        res.json({
+          confirmation: 'fail',
+          message: "cannot find username"
+        })
+        return;
+      }
 
-      req.session.user = {id: data.id}
+      const result = await bcrypt.compare(req.body.password, data.password);
 
-      res.json({
-        confirmation: 'success',
-        message: data
-      })
+      if(result) {
+        req.session.user = {id: data.id}
+
+        res.json({
+          confirmation: 'success',
+          message: data
+        })
+      } else {
+        req.session.user = {id: data.id}
+
+        res.json({
+          confirmation: 'fail',
+          message: "wrong password"
+        })
+      }
     })
     .catch(err => {
       res.json({
@@ -78,8 +100,15 @@ router.post('/register', (req, res) => {
       return
     } else {
       //someone logged in
-      turbo.fetchOne('user', req.session.user.id)
+      User.findById(req.session.user.id)
         .then(data => {
+          if (!data) {
+            res.json({
+              confirmation: 'fail',
+              message: "cannot find user"
+            });
+            return;
+          }
           res.json({
             confirmation: 'success',
             message: data
@@ -95,9 +124,13 @@ router.post('/register', (req, res) => {
 
 })
 
+router.post('/hash', async (req, res) => {
+  res.send(await bcrypt.hash(req.body.string, saltRounds))
+})
+
 router.get('/logout', (req, res) => {
 
-  req.session.reset() //delete session variable
+  req.session.destroy() //delete session variable
   res.redirect('/'); //redirect to home
 
 })

@@ -1,6 +1,5 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
-
-const chat = require('./chat')
+const chat = require('./chat');
+const User = require('../models/User');
 
 let currentUsers = {
 
@@ -16,9 +15,9 @@ module.exports = function (server) {
     socket.on('add user', username => {
       // if user was not added yet
       if(!added) {
-        turbo.fetch('user', {
+        User.find({
           username: username
-        })
+        }).lean()
           .then(users => {
             socket.username = users[0].username;
             console.log(`${users[0].username} connected`);

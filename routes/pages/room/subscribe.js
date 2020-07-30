@@ -1,4 +1,4 @@
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
+const Room = require("../../../models/Room");
 
 // path : room/:slug/subscribe
 module.exports = (req, res) => {
@@ -9,9 +9,9 @@ module.exports = (req, res) => {
     res.redirect('/room/' + slug);
   } else {
     // someone is logged in!
-    turbo.fetch('room', {
+    Room.find({
       slug: slug
-    })
+    }).lean()
       .then(rooms => {
         // add current user to the subscribers array and then update the room
 
@@ -27,8 +27,7 @@ module.exports = (req, res) => {
         } else {
           // add logged in user to the subscribers
           rooms[0].subscribers.push(req.session.user.id)
-
-          return turbo.updateEntity('room', rooms[0].id, {
+          return Room.findByIdAndUpdate(rooms[0]._id, {
             subscribers: rooms[0].subscribers
           })
         }
