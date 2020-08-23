@@ -1,7 +1,7 @@
 const User = require("../../../models/User");
 const Room = require("../../../models/Room");
 
-const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
+const CDN = '';
 
 module.exports = (req, res) => {
 	const slug = req.params.slug;

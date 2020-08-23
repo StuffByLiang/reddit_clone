@@ -1,28 +1,6 @@
-// Full Documentation - https://www.turbo360.co/docs
-const turbo = require('turbo360')({site_id: process.env.TURBO_APP_ID})
-const vertex = require('vertex360')({site_id: process.env.TURBO_APP_ID})
-const router = vertex.router()
+var express = require('express')
+var router = express.Router()
 const controllers = require('../controllers') //i dont understand the point of controllers
-
-// router.get('/special', (req, res) => {
-// 	turbo.fetch('reply', null)
-// 		.then(replys => {
-// 			for(reply of replys) {
-// 				turbo.removeEntity('reply', reply.id).then(data=>{console.log(data)})
-// 			}
-// 		})
-// })
-//
-// router.get('/special2', (req, res) => {
-// 	turbo.fetch('topic', null)
-// 		.then(replys => {
-// 			for(reply of replys) {
-// 				turbo.updateEntity('topic', reply.id, {
-// 					numReplies: 0
-// 				}).then(data=>{console.log(data)})
-// 			}
-// 		})
-// })
 
 router.post('/:resource', (req, res) => {
 

@@ -1,14 +1,23 @@
 # reddit_clone
 
-This project was built with Turbo 360. To learn more, click here: https://www.turbo360.co
+A fully-fledged reddit clone built using the MVC (Model View Controller) design pattern templated with mustache. Used Express as a server and Gulp as a pipeline to minify files.
+
+## Features
+- Contains multiple rooms that you can subscribe to
+- You can create posts that you can make in specific rooms
+- You can make comments & reply to other comments to make nested comments
+- User Authentication
+- You can edit your profile
+- Contains a todo task app
+- Contains real-time live messaging
 
 ## Instructions
-After cloning into repo, cd to project root directory and create a .env file. This file requires a TURBO_APP_ID and SESSION_SECRET keys:
+After cloning into repo, cd to project root directory and create a .env file. This file requires a MONGO_URI and SESSION_SECRET and optionally a PORT:
 
 ```
-TURBO_ENV=dev
-SESSION_SECRET=YOUR_SESSION_SECRET
-TURBO_APP_ID=123abc
+SESSION_SECRET=YOUR_SESSION_SECRET (can be anything)
+PORT=3000
+MONGO_URI=your mongo uri
 ```
 
 Then run npm install from the root directory:
@@ -17,19 +26,13 @@ Then run npm install from the root directory:
 $ npm install
 ```
 
-To run dev server, install Turbo CLI globally:
-
-```
-$ sudo npm install turbo-cli -g
-```
-
 To start the server, run
 
 ```
 $ npm start
 ```
 
-To build for production, run build:
+To build files (to obtain css & js files), run build:
 
 ```
 $ npm run build

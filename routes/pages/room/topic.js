@@ -1,4 +1,4 @@
-const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
+const CDN = '';
 
 // path : room/:slug/topic/:topicSlug
 module.exports = (req, res) => {

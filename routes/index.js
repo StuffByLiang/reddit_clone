@@ -1,4 +1,3 @@
-// Full Documentation - https://www.turbo360.co/docs
 const router = require('express').Router()
 
 const ta = require('time-ago')
@@ -6,7 +5,7 @@ const ta = require('time-ago')
 const helpers = require('./helpers');
 const Topic = require('../models/Topic');
 
-const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
+const CDN = '';
 
 /*  This is the home route. It renders the index.mustache page from the views directory.
 	Data is rendered using the Mustache templating engine. For more

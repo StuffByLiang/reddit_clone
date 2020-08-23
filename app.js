@@ -12,8 +12,6 @@ db.once('open', function() {
   console.log("sucessfully connected to mongodb")
 });
 
-// const app = vertex.express() // initialize app
-
 const app = express()
 
 // set view engine to mustache

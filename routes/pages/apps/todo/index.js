@@ -1,7 +1,7 @@
 const helpers = require('../../../helpers');
 const Task = require('../../../../models/Task')
 
-const CDN = (process.env.TURBO_ENV == 'dev') ? '' : process.env.TURBO_CDN;
+const CDN = '';
 
 module.exports = (req, res) => {
   const user = req.params.user;

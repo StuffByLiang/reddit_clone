@@ -2,7 +2,7 @@ const RoomController = require('./RoomController');
 const ReplyController = require('./ReplyController');
 const TopicController = require('./TopicController');
 const UserController = require('./UserController');
-const MessageController = require('./MessageController');
+// const MessageController = require('./MessageController');
 const TaskController = require('./TaskController');
 
 module.exports = {
@@ -10,6 +10,6 @@ module.exports = {
   reply: ReplyController,
   topic: TopicController,
   user: UserController,
-  message: MessageController,
+  // message: MessageController,
   task: TaskController
 };

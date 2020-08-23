@@ -4,10 +4,9 @@
   "server": false,
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "start2": "turbo devserver",
-    "deploy": "turbo deploy",
+    "start": "npm run build & npm run serve",
     "clean": "rimraf ./public/dist",
+    "serve": "nodemon ./bin/www",
     "build": "npm run clean && cross-env NODE_ENV=production gulp prod"
   },
   "dependencies": {
@@ -48,11 +47,9 @@
     "socket.io": "^2.2.0",
     "statuses": "^1.4.0",
     "time-ago": "^0.2.1",
-    "turbo360": "latest",
     "type-is": "^1.6.16",
     "utils-merge": "1.0.1",
-    "vary": "^1.1.2",
-    "vertex360": "latest"
+    "vary": "^1.1.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -70,9 +67,5 @@
     "gulp-uglify": "^3.0.1",
     "gulplog": "^1.0.0",
     "rimraf": "^2.6.2"
-  },
-  "deploy": [
-    "."
-  ],
-  "format": "vertex"
+  }
 }
