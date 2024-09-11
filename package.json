@@ -42,7 +42,7 @@
     "range-parser": "^1.2.0",
     "safe-buffer": "5.1.1",
     "send": "0.16.2",
-    "serve-static": "1.13.2",
+    "serve-static": "1.16.0",
     "setprototypeof": "1.1.0",
     "socket.io": "^2.2.0",
     "statuses": "^1.4.0",
